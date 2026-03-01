@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ztFetch } from "../../lib/api";
+import Link from "next/link";
 
 export default function LoginPage() {
 	const router = useRouter();
@@ -32,6 +33,8 @@ export default function LoginPage() {
 				setNeedsMfa(true);
 			} else {
 				localStorage.setItem("accessToken", data.data.accessToken);
+				if (data.data.refreshToken)
+					localStorage.setItem("refreshToken", data.data.refreshToken);
 				router.push("/dashboard");
 			}
 		} catch (err: any) {
@@ -57,6 +60,8 @@ export default function LoginPage() {
 			if (!res.ok) throw new Error(data.error || "MFA Verification failed");
 
 			localStorage.setItem("accessToken", data.data.accessToken);
+			if (data.data.refreshToken)
+				localStorage.setItem("refreshToken", data.data.refreshToken);
 			router.push("/dashboard");
 		} catch (err: any) {
 			setError(err.message);
@@ -79,6 +84,8 @@ export default function LoginPage() {
 
 			if (!res.ok) throw new Error(data.error || "SSO Error");
 			localStorage.setItem("accessToken", data.data.accessToken);
+			if (data.data.refreshToken)
+				localStorage.setItem("refreshToken", data.data.refreshToken);
 			router.push("/dashboard");
 		} catch (err: any) {
 			setError(err.message);
@@ -218,6 +225,17 @@ export default function LoginPage() {
 						</button>
 					</form>
 				)}
+
+				<div className="pt-4 text-center">
+					<p className="text-slate-400 text-sm">
+						Don't have an account?{" "}
+						<Link
+							href="/register"
+							className="text-blue-500 hover:text-blue-400 font-medium transition-colors">
+							Create one
+						</Link>
+					</p>
+				</div>
 			</div>
 		</div>
 	);
