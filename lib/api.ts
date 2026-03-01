@@ -37,10 +37,60 @@ export async function ztFetch(endpoint: string, options: FetchOptions = {}) {
 
 	headers.set("Content-Type", "application/json");
 
-	const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+	let response = await fetch(`${API_BASE_URL}${endpoint}`, {
 		...options,
 		headers,
 	});
+
+	// Token Refresh Interceptor
+	if (
+		response.status === 401 &&
+		options.requireAuth !== false &&
+		typeof window !== "undefined"
+	) {
+		const refreshToken = localStorage.getItem("refreshToken");
+		if (refreshToken) {
+			try {
+				const refreshRes = await fetch(`${API_BASE_URL}/auth/refresh`, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						"X-Tunnel-Secret": "zT-tunnel-s3cr3t",
+					},
+					body: JSON.stringify({ refresh_token: refreshToken }),
+				});
+
+				if (refreshRes.ok) {
+					const data = await refreshRes.json();
+					if (data.data?.accessToken) {
+						// Save new tokens
+						localStorage.setItem("accessToken", data.data.accessToken);
+						localStorage.setItem("refreshToken", data.data.refreshToken);
+
+						// Retry original request with new token
+						headers.set("Authorization", `Bearer ${data.data.accessToken}`);
+						headers.set("X-IAP-Token", `Bearer ${data.data.accessToken}`);
+
+						response = await fetch(`${API_BASE_URL}${endpoint}`, {
+							...options,
+							headers,
+						});
+					}
+				} else {
+					// Refresh failed, clear everything
+					localStorage.clear();
+					window.location.href = "/login";
+				}
+			} catch (e) {
+				localStorage.clear();
+				window.location.href = "/login";
+			}
+		} else {
+			// No refresh token, force logout
+			localStorage.clear();
+			window.location.href = "/login";
+		}
+	}
 
 	return response;
 }
