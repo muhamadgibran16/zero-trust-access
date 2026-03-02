@@ -153,7 +153,7 @@ export default function Home() {
 							{
 								icon: Activity,
 								title: "Actionable Analytics",
-								desc: "Comprehensive audit logs and command center monitoring.",
+								desc: "Comprehensive audit logs and dashboard monitoring.",
 							},
 						].map((Feature, i) => (
 							<div

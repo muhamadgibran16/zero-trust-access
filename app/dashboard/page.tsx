@@ -104,7 +104,7 @@ export default function CommandCenterPage() {
 	};
 
 	if (loading && !analytics) {
-		return <div className="p-8 text-slate-400">Loading Command Center...</div>;
+		return <div className="p-8 text-slate-400">Loading Dashboard...</div>;
 	}
 
 	if (isDeviceError) {
@@ -124,7 +124,7 @@ export default function CommandCenterPage() {
 			<div className="flex justify-between items-center mb-4">
 				<div>
 					<h1 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
-						Command Center
+						Dashboard
 					</h1>
 					<p className="text-slate-500 dark:text-slate-400 mt-1">
 						Zero Trust Security Posture Overview

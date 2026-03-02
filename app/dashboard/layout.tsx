@@ -81,7 +81,7 @@ export default function DashboardLayout({
 	};
 
 	const navigation = [
-		{ name: "Command Center", href: "/dashboard", icon: LayoutDashboard },
+		{ name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
 		{ name: "Audit Logs", href: "/dashboard/logs", icon: Activity },
 		{ name: "User Management", href: "/dashboard/users", icon: Users },
 		{ name: "Security Policies", href: "/dashboard/policies", icon: FileLock },
