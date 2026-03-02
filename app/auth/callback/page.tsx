@@ -22,18 +22,46 @@ function CallbackContent() {
 			return;
 		}
 
-		if (accessToken) {
-			localStorage.setItem("accessToken", accessToken);
-			if (refreshToken) {
-				localStorage.setItem("refreshToken", refreshToken);
+		// Provision device token before redirecting
+		const provisionDeviceToken = async () => {
+			const mac = localStorage.getItem("deviceMac");
+			if (mac) {
+				try {
+					// Import ztFetch dynamically or handle manually.
+					// For simplicity since we don't have ztFetch imported here, we'll fetch manually
+					const headers = new Headers({
+						"Content-Type": "application/json",
+						"X-Device-MAC": mac,
+					});
+					// The backend cookies are included automatically
+					await fetch("/api/v1/users/devices", {
+						method: "POST",
+						headers,
+						body: JSON.stringify({ macAddress: mac, name: "Web Browser SSO" }),
+						credentials: "include",
+					});
+					const tRes = await fetch("/api/v1/users/devices/token", {
+						method: "POST",
+						headers,
+						body: JSON.stringify({ macAddress: mac }),
+						credentials: "include",
+					});
+					if (tRes.ok) {
+						const tData = await tRes.json();
+						localStorage.setItem("deviceToken", tData.data.deviceToken);
+					}
+				} catch (e) {
+					console.error("Device token provisioning failed", e);
+				}
 			}
-			router.push("/dashboard"); // Successful login, proceed to app
-		} else {
-			setError("Authentication failed: No tokens received.");
-			setTimeout(() => {
-				router.push("/login");
-			}, 3000);
-		}
+			router.push("/dashboard");
+		};
+
+		// Since we now use HttpOnly cookies, the backend sets them during redirect
+		// We securely provision device then proceed to dashboard.
+		setTimeout(() => {
+			provisionDeviceToken();
+		}, 1000); // brief delay to show parsing standard UI
 	}, [searchParams, router]);
 
 	return (

@@ -15,6 +15,27 @@ export default function LoginPage() {
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(false);
 
+	const provisionDeviceToken = async () => {
+		const mac = localStorage.getItem("deviceMac");
+		if (!mac) return;
+		try {
+			await ztFetch("/users/devices", {
+				method: "POST",
+				body: JSON.stringify({ macAddress: mac, name: "Web Browser" }),
+			});
+			const tokenRes = await ztFetch("/users/devices/token", {
+				method: "POST",
+				body: JSON.stringify({ macAddress: mac }),
+			});
+			if (tokenRes.ok) {
+				const data = await tokenRes.json();
+				localStorage.setItem("deviceToken", data.data.deviceToken);
+			}
+		} catch (e) {
+			console.error("Device token provisioning failed", e);
+		}
+	};
+
 	const handleLogin = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setLoading(true);
@@ -33,9 +54,7 @@ export default function LoginPage() {
 			if (data.data.needsMfa) {
 				setNeedsMfa(true);
 			} else {
-				localStorage.setItem("accessToken", data.data.accessToken);
-				if (data.data.refreshToken)
-					localStorage.setItem("refreshToken", data.data.refreshToken);
+				await provisionDeviceToken();
 				router.push("/dashboard");
 			}
 		} catch (err: any) {
@@ -60,9 +79,7 @@ export default function LoginPage() {
 
 			if (!res.ok) throw new Error(data.error || "MFA Verification failed");
 
-			localStorage.setItem("accessToken", data.data.accessToken);
-			if (data.data.refreshToken)
-				localStorage.setItem("refreshToken", data.data.refreshToken);
+			await provisionDeviceToken();
 			router.push("/dashboard");
 		} catch (err: any) {
 			setError(err.message);

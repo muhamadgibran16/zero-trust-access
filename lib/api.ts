@@ -1,5 +1,4 @@
-export const API_BASE_URL =
-	process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8080/api/v1";
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "/api/v1";
 
 interface FetchOptions extends RequestInit {
 	requireAuth?: boolean;
@@ -37,20 +36,18 @@ export async function ztFetch(endpoint: string, options: FetchOptions = {}) {
 		headers.set("X-Device-MAC", deviceMac);
 	}
 
+	// Cryptographic Device Identity Header
+	const deviceToken =
+		typeof window !== "undefined" ? localStorage.getItem("deviceToken") : null;
+	if (deviceToken) {
+		headers.set("X-Device-Token", deviceToken);
+	}
+
 	// Mock Cloaking secret for bypassing tunnel restrictions during testing
 	headers.set("X-Tunnel-Secret", "zT-tunnel-s3cr3t");
 
 	// IAP / Auth Header
-	if (options.requireAuth !== false) {
-		const token =
-			typeof window !== "undefined"
-				? localStorage.getItem("accessToken")
-				: null;
-		if (token) {
-			headers.set("Authorization", `Bearer ${token}`);
-			headers.set("X-IAP-Token", `Bearer ${token}`);
-		}
-	}
+	options.credentials = "include";
 
 	headers.set("Content-Type", "application/json");
 
@@ -65,49 +62,27 @@ export async function ztFetch(endpoint: string, options: FetchOptions = {}) {
 		options.requireAuth !== false &&
 		typeof window !== "undefined"
 	) {
-		const refreshToken = localStorage.getItem("refreshToken");
-		if (refreshToken) {
-			try {
-				const refreshRes = await fetch(`${API_BASE_URL}/auth/refresh`, {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-						"X-Tunnel-Secret": "zT-tunnel-s3cr3t",
-					},
-					body: JSON.stringify({ refresh_token: refreshToken }),
+		try {
+			const refreshRes = await fetch(`${API_BASE_URL}/auth/refresh`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					"X-Tunnel-Secret": "zT-tunnel-s3cr3t",
+				},
+				credentials: "include", // this will send the refresh_token cookie
+			});
+
+			if (refreshRes.ok) {
+				// Retry original request since the backend set new cookies
+				response = await fetch(`${API_BASE_URL}${endpoint}`, {
+					...options,
+					headers,
 				});
-
-				if (refreshRes.ok) {
-					const data = await refreshRes.json();
-					if (data.data?.accessToken) {
-						// Save new tokens
-						localStorage.setItem("accessToken", data.data.accessToken);
-						localStorage.setItem("refreshToken", data.data.refreshToken);
-
-						// Retry original request with new token
-						headers.set("Authorization", `Bearer ${data.data.accessToken}`);
-						headers.set("X-IAP-Token", `Bearer ${data.data.accessToken}`);
-
-						response = await fetch(`${API_BASE_URL}${endpoint}`, {
-							...options,
-							headers,
-						});
-					}
-				} else {
-					// Refresh failed, clear everything
-					localStorage.removeItem("accessToken");
-					localStorage.removeItem("refreshToken");
-					window.location.href = "/login";
-				}
-			} catch (e) {
-				localStorage.removeItem("accessToken");
-				localStorage.removeItem("refreshToken");
+			} else {
+				// Refresh failed, navigate to login
 				window.location.href = "/login";
 			}
-		} else {
-			// No refresh token, force logout
-			localStorage.removeItem("accessToken");
-			localStorage.removeItem("refreshToken");
+		} catch (e) {
 			window.location.href = "/login";
 		}
 	}

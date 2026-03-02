@@ -270,7 +270,7 @@ export default function MonitoringPage() {
 				</div>
 			</div>
 
-			<div className="bg-slate-900 border border-slate-800 rounded-xl p-4 text-center text-sm text-slate-500">
+			<div className="bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 text-center text-sm text-slate-500 dark:text-slate-500">
 				Metrics are refreshed automatically every 10 seconds.
 			</div>
 		</div>

@@ -107,8 +107,8 @@ export default function DashboardLayout({
 						height={36}
 						className="mr-3 object-contain"
 					/>
-					<span className="font-semibold text-xl text-slate-900 dark:text-white tracking-wide">
-						FortiGateX Admin
+					<span className="font-semibold text-xl text-gradient bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-green-500 dark:text-white tracking-wide">
+						FortiGateX
 					</span>
 				</div>
 				<nav className="flex-1 px-4 py-6 space-y-2">
