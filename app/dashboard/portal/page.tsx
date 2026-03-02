@@ -97,14 +97,14 @@ export default function PortalPage() {
 	return (
 		<div className="max-w-6xl mx-auto p-4 md:p-8">
 			<div className="flex items-center space-x-3 mb-8">
-				<div className="p-2 bg-indigo-500/10 rounded-lg">
-					<Globe className="w-6 h-6 text-indigo-400" />
+				<div className="p-2 bg-indigo-50 dark:bg-indigo-500/10 rounded-lg">
+					<Globe className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
 				</div>
 				<div>
-					<h1 className="text-2xl font-bold text-white tracking-tight">
+					<h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
 						App Portal
 					</h1>
-					<p className="text-sm text-slate-400">
+					<p className="text-sm text-slate-500 dark:text-slate-400">
 						Securely access internal enterprise applications
 					</p>
 				</div>
@@ -118,12 +118,12 @@ export default function PortalPage() {
 			)}
 
 			{apps.length === 0 && !error ? (
-				<div className="bg-slate-900 border border-slate-800 rounded-xl p-12 text-center shadow-xl">
-					<Lock className="w-12 h-12 text-slate-600 mx-auto mb-4" />
-					<h3 className="text-lg font-medium text-white mb-2">
+				<div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-12 text-center shadow-lg dark:shadow-xl">
+					<Lock className="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-4" />
+					<h3 className="text-lg font-medium text-slate-900 dark:text-white mb-2">
 						No Applications Available
 					</h3>
-					<p className="text-slate-400 max-w-md mx-auto">
+					<p className="text-slate-500 dark:text-slate-400 max-w-md mx-auto">
 						You currently do not have access to any internal applications, or
 						none have been configured yet.
 					</p>
@@ -133,7 +133,7 @@ export default function PortalPage() {
 					{apps.map((app) => (
 						<div
 							key={app.id}
-							className="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl hover:border-indigo-500/30 transition-all hover:shadow-indigo-500/5 group relative overflow-hidden flex flex-col h-full">
+							className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-lg dark:shadow-xl hover:border-indigo-300 dark:hover:border-indigo-500/30 transition-all hover:shadow-indigo-500/10 group relative overflow-hidden flex flex-col h-full">
 							<div className="absolute top-0 right-0 p-4">
 								<span className="flex h-2.5 w-2.5">
 									<span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -142,22 +142,22 @@ export default function PortalPage() {
 							</div>
 
 							<div className="flex items-center mb-4">
-								<div className="w-12 h-12 rounded-lg bg-slate-800 flex items-center justify-center text-2xl border border-slate-700">
+								<div className="w-12 h-12 rounded-lg bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-2xl border border-slate-200 dark:border-slate-700">
 									{app.icon || "🌐"}
 								</div>
 								<div className="ml-4">
-									<h3 className="text-lg font-semibold text-white group-hover:text-indigo-400 transition-colors">
+									<h3 className="text-lg font-semibold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
 										{app.name}
 									</h3>
-									<p className="text-xs font-mono text-slate-500 truncate max-w-[150px]">
+									<p className="text-xs font-mono text-slate-500 dark:text-slate-500 truncate max-w-[150px]">
 										{app.pathPrefix}
 									</p>
 								</div>
 							</div>
 
-							<p className="text-sm text-slate-400 mb-6 flex-grow">
+							<p className="text-sm text-slate-600 dark:text-slate-400 mb-6 flex-grow">
 								{app.description ||
-									"Internal enterprise application protected by Zero Trust Access."}
+									"Internal enterprise application protected by FortiGateX."}
 							</p>
 
 							<button
@@ -171,12 +171,12 @@ export default function PortalPage() {
 				</div>
 			)}
 
-			<div className="mt-8 bg-slate-900 border border-slate-800 rounded-xl p-6">
-				<h3 className="text-md font-medium text-white mb-2 flex items-center">
-					<Lock className="w-4 h-4 mr-2 text-emerald-500" />
+			<div className="mt-8 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm dark:shadow-none">
+				<h3 className="text-md font-medium text-slate-900 dark:text-white mb-2 flex items-center">
+					<Lock className="w-4 h-4 mr-2 text-emerald-600 dark:text-emerald-500" />
 					Zero Trust Network Access (ZTNA)
 				</h3>
-				<p className="text-sm text-slate-400">
+				<p className="text-sm text-slate-600 dark:text-slate-400">
 					All traffic to these applications is routed through an identity-aware
 					proxy. Connections are continuously verified against your device
 					posture, risk score, and access policies.

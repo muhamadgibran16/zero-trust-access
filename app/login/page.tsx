@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ztFetch, API_BASE_URL } from "../../lib/api";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function LoginPage() {
 	const router = useRouter();
@@ -80,19 +81,26 @@ export default function LoginPage() {
 	};
 
 	return (
-		<div className="min-h-screen bg-slate-950 flex items-center justify-center p-4">
-			<div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-8 space-y-6">
+		<div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex items-center justify-center p-4">
+			<div className="w-full max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl dark:shadow-2xl p-8 space-y-6">
 				<div className="text-center">
-					<h1 className="text-3xl font-bold text-white tracking-tight">
-						Zero Trust Access
+					<Image
+						src="/logo.png"
+						alt="FortiGateX Logo"
+						width={64}
+						height={64}
+						className="mx-auto mb-4 object-contain"
+					/>
+					<h1 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
+						FortiGateX
 					</h1>
-					<p className="text-slate-400 mt-2">
+					<p className="text-slate-600 dark:text-slate-400 mt-2">
 						Secure identity & device verification
 					</p>
 				</div>
 
 				{error && (
-					<div className="bg-red-500/10 border border-red-500/50 text-red-500 px-4 py-3 rounded-lg text-sm">
+					<div className="bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/50 text-red-600 dark:text-red-500 px-4 py-3 rounded-lg text-sm">
 						{error}
 					</div>
 				)}
@@ -100,26 +108,26 @@ export default function LoginPage() {
 				{!needsMfa ? (
 					<form onSubmit={handleLogin} className="space-y-4">
 						<div>
-							<label className="block text-sm font-medium text-slate-300 mb-1">
+							<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
 								Work Email
 							</label>
 							<input
 								type="email"
 								value={email}
 								onChange={(e) => setEmail(e.target.value)}
-								className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow"
+								className="w-full px-4 py-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow"
 								required
 							/>
 						</div>
 						<div>
-							<label className="block text-sm font-medium text-slate-300 mb-1">
+							<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
 								Password
 							</label>
 							<input
 								type="password"
 								value={password}
 								onChange={(e) => setPassword(e.target.value)}
-								className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow"
+								className="w-full px-4 py-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow"
 								required
 							/>
 						</div>
@@ -133,19 +141,19 @@ export default function LoginPage() {
 						<div className="text-right">
 							<a
 								href="/forgot-password"
-								className="text-xs text-slate-400 hover:text-blue-400 transition-colors">
+								className="text-xs text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
 								Forgot Password?
 							</a>
 						</div>
 
-						<div className="pt-4 border-t border-slate-800 flex flex-col space-y-3">
-							<p className="text-xs text-center text-slate-500 uppercase tracking-wider font-semibold">
+						<div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-col space-y-3">
+							<p className="text-xs text-center text-slate-500 dark:text-slate-500 uppercase tracking-wider font-semibold">
 								Or continue with SSO
 							</p>
 							<button
 								type="button"
 								onClick={() => handleSsoClick("google")}
-								className="w-full flex items-center justify-center space-x-2 bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 font-medium py-3 rounded-lg transition-colors">
+								className="w-full flex items-center justify-center space-x-2 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-700 font-medium py-3 rounded-lg transition-colors">
 								<svg className="w-5 h-5" viewBox="0 0 24 24">
 									<path
 										fill="currentColor"
@@ -173,9 +181,9 @@ export default function LoginPage() {
 						onSubmit={handleMfaVerify}
 						className="space-y-4 animate-in fade-in zoom-in duration-300">
 						<div className="text-center mb-6">
-							<div className="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+							<div className="w-16 h-16 bg-blue-50 dark:bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
 								<svg
-									className="w-8 h-8 text-blue-500"
+									className="w-8 h-8 text-blue-600 dark:text-blue-500"
 									fill="none"
 									viewBox="0 0 24 24"
 									stroke="currentColor">
@@ -187,16 +195,16 @@ export default function LoginPage() {
 									/>
 								</svg>
 							</div>
-							<h2 className="text-xl font-semibold text-white">
+							<h2 className="text-xl font-semibold text-slate-900 dark:text-white">
 								Adaptive Authentication
 							</h2>
-							<p className="text-sm text-slate-400 mt-1">
+							<p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
 								Please enter the 6-digit code sent to your device.
 							</p>
 						</div>
 
 						<div>
-							<label className="block text-sm font-medium text-slate-300 mb-1">
+							<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
 								MFA Code
 							</label>
 							<input
@@ -204,7 +212,7 @@ export default function LoginPage() {
 								maxLength={6}
 								value={mfaCode}
 								onChange={(e) => setMfaCode(e.target.value.replace(/\D/g, ""))}
-								className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white text-center text-2xl tracking-[0.5em] focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow"
+								className="w-full px-4 py-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white text-center text-2xl tracking-[0.5em] focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow"
 								required
 								placeholder="••••••"
 							/>
@@ -220,11 +228,11 @@ export default function LoginPage() {
 				)}
 
 				<div className="pt-4 text-center">
-					<p className="text-slate-400 text-sm">
+					<p className="text-slate-600 dark:text-slate-400 text-sm">
 						Don't have an account?{" "}
 						<Link
 							href="/register"
-							className="text-blue-500 hover:text-blue-400 font-medium transition-colors">
+							className="text-blue-600 dark:text-blue-500 hover:text-blue-700 dark:hover:text-blue-400 font-medium transition-colors">
 							Create one
 						</Link>
 					</p>

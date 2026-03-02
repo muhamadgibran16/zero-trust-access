@@ -1,13 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
 
-// This page acts as a receiver for the JWT tokens returned by the GO backend
-// after a successful Google SSO OAuth flow.
-// The Go Backend should redirect to: `http://localhost:3000/auth/callback?access_token=...&refresh_token=...`
-export default function AuthCallbackPage() {
+function CallbackContent() {
 	const router = useRouter();
 	const searchParams = useSearchParams();
 	const [error, setError] = useState<string | null>(null);
@@ -61,5 +58,25 @@ export default function AuthCallbackPage() {
 				</div>
 			)}
 		</div>
+	);
+}
+
+// This page acts as a receiver for the JWT tokens returned by the GO backend
+// after a successful Google SSO OAuth flow.
+export default function AuthCallbackPage() {
+	return (
+		<Suspense
+			fallback={
+				<div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-4 text-slate-300">
+					<div className="flex flex-col items-center justify-center space-y-4">
+						<div className="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center animate-pulse">
+							<Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
+						</div>
+						<h2 className="text-xl font-semibold text-white">Loading...</h2>
+					</div>
+				</div>
+			}>
+			<CallbackContent />
+		</Suspense>
 	);
 }

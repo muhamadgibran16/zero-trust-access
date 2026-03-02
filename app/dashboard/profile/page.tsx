@@ -135,30 +135,33 @@ export default function ProfilePage() {
 	const { user, devices } = profile;
 
 	return (
-		<div className="max-w-4xl mx-auto text-slate-300">
+		<div className="max-w-4xl mx-auto text-slate-900 dark:text-slate-300">
 			<div className="mb-8">
-				<h1 className="text-2xl font-bold text-white flex items-center">
-					<User className="w-5 h-5 mr-3 text-violet-500" />
+				<h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center">
+					<User className="w-5 h-5 mr-3 text-violet-600 dark:text-violet-500" />
 					My Profile
 				</h1>
-				<p className="text-sm text-slate-500 mt-1">
+				<p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
 					Manage your identity, security, and trusted devices
 				</p>
 			</div>
 
 			<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 				{/* Account Info */}
-				<div className="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-2xl">
-					<h2 className="text-lg font-semibold text-white mb-4 flex items-center">
-						<User className="w-4 h-4 mr-2 text-slate-500" /> Account
+				<div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-lg dark:shadow-2xl flex flex-col">
+					<h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-4 flex items-center">
+						<User className="w-4 h-4 mr-2 text-slate-500 dark:text-slate-400" />{" "}
+						Account
 					</h2>
-					<div className="space-y-3 text-sm">
+					<div className="space-y-3 text-sm flex-1">
 						<div className="flex justify-between">
-							<span className="text-slate-500">Email</span>
-							<span className="font-mono text-slate-300">{user.email}</span>
+							<span className="text-slate-500 dark:text-slate-400">Email</span>
+							<span className="font-mono text-slate-900 dark:text-slate-300">
+								{user.email}
+							</span>
 						</div>
 						<div className="flex justify-between">
-							<span className="text-slate-500">Role</span>
+							<span className="text-slate-500 dark:text-slate-400">Role</span>
 							<span
 								className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${
 									user.role === "admin"
@@ -169,31 +172,35 @@ export default function ProfilePage() {
 							</span>
 						</div>
 						<div className="flex justify-between">
-							<span className="text-slate-500">MFA</span>
+							<span className="text-slate-500 dark:text-slate-400">MFA</span>
 							{user.mfaEnabled ? (
-								<span className="inline-flex items-center text-xs text-emerald-400">
+								<span className="inline-flex items-center text-xs text-emerald-600 dark:text-emerald-400">
 									<ShieldCheck className="w-3 h-3 mr-1" /> Enabled
 								</span>
 							) : (
-								<span className="text-xs text-amber-500">Not Enabled</span>
+								<span className="text-xs text-amber-600 dark:text-amber-500">
+									Not Enabled
+								</span>
 							)}
 						</div>
 						<div className="flex justify-between">
-							<span className="text-slate-500">Risk Score</span>
+							<span className="text-slate-500 dark:text-slate-400">
+								Risk Score
+							</span>
 							<span
 								className={`font-mono font-bold ${
 									user.riskScore >= 100
-										? "text-red-500"
+										? "text-red-600 dark:text-red-500"
 										: user.riskScore >= 50
-											? "text-amber-500"
-											: "text-emerald-500"
+											? "text-amber-600 dark:text-amber-500"
+											: "text-emerald-600 dark:text-emerald-500"
 								}`}>
 								{user.riskScore}
 							</span>
 						</div>
 						<div className="flex justify-between">
-							<span className="text-slate-500">Joined</span>
-							<span className="text-xs text-slate-400">
+							<span className="text-slate-500 dark:text-slate-400">Joined</span>
+							<span className="text-xs text-slate-500 dark:text-slate-400">
 								{new Date(user.createdAt).toLocaleDateString()}
 							</span>
 						</div>
@@ -202,8 +209,8 @@ export default function ProfilePage() {
 					{/* Edit Name */}
 					<form
 						onSubmit={handleUpdateName}
-						className="mt-6 pt-4 border-t border-slate-800">
-						<label className="block text-xs font-medium text-slate-400 mb-1">
+						className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
+						<label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
 							Display Name
 						</label>
 						<div className="flex space-x-2">
@@ -211,7 +218,7 @@ export default function ProfilePage() {
 								type="text"
 								value={editName}
 								onChange={(e) => setEditName(e.target.value)}
-								className="flex-1 bg-slate-800 border border-slate-700 rounded-lg text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+								className="flex-1 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
 								required
 								minLength={2}
 							/>
@@ -227,13 +234,14 @@ export default function ProfilePage() {
 				</div>
 
 				{/* Change Password */}
-				<div className="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-2xl">
-					<h2 className="text-lg font-semibold text-white mb-4 flex items-center">
-						<KeyRound className="w-4 h-4 mr-2 text-slate-500" /> Change Password
+				<div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-lg dark:shadow-2xl">
+					<h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-4 flex items-center">
+						<KeyRound className="w-4 h-4 mr-2 text-slate-500 dark:text-slate-400" />{" "}
+						Change Password
 					</h2>
 					<form onSubmit={handleChangePassword} className="space-y-4">
 						<div>
-							<label className="block text-xs font-medium text-slate-400 mb-1">
+							<label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
 								Current Password
 							</label>
 							<div className="relative">
@@ -241,7 +249,7 @@ export default function ProfilePage() {
 									type={showOld ? "text" : "password"}
 									value={oldPassword}
 									onChange={(e) => setOldPassword(e.target.value)}
-									className="w-full bg-slate-800 border border-slate-700 rounded-lg text-white px-3 py-2 text-sm pr-10 focus:outline-none focus:ring-2 focus:ring-violet-500"
+									className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white px-3 py-2 text-sm pr-10 focus:outline-none focus:ring-2 focus:ring-violet-500"
 									required
 								/>
 								<button
@@ -265,14 +273,14 @@ export default function ProfilePage() {
 									type={showNew ? "text" : "password"}
 									value={newPassword}
 									onChange={(e) => setNewPassword(e.target.value)}
-									className="w-full bg-slate-800 border border-slate-700 rounded-lg text-white px-3 py-2 text-sm pr-10 focus:outline-none focus:ring-2 focus:ring-violet-500"
+									className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white px-3 py-2 text-sm pr-10 focus:outline-none focus:ring-2 focus:ring-violet-500"
 									required
 									minLength={6}
 								/>
 								<button
 									type="button"
 									onClick={() => setShowNew(!showNew)}
-									className="absolute right-3 top-2.5 text-slate-500 hover:text-slate-300">
+									className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300">
 									{showNew ? (
 										<EyeOff className="w-4 h-4" />
 									) : (
@@ -282,14 +290,14 @@ export default function ProfilePage() {
 							</div>
 						</div>
 						<div>
-							<label className="block text-xs font-medium text-slate-400 mb-1">
+							<label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
 								Confirm New Password
 							</label>
 							<input
 								type="password"
 								value={confirmPassword}
 								onChange={(e) => setConfirmPassword(e.target.value)}
-								className="w-full bg-slate-800 border border-slate-700 rounded-lg text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+								className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
 								required
 								minLength={6}
 							/>
@@ -305,15 +313,15 @@ export default function ProfilePage() {
 			</div>
 
 			{/* My Devices */}
-			<div className="mt-6 bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
-				<div className="p-4 border-b border-slate-800 flex items-center">
-					<HardDrive className="w-5 h-5 text-cyan-500 mr-3" />
-					<h2 className="text-lg font-semibold text-white">
+			<div className="mt-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-lg dark:shadow-2xl">
+				<div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center">
+					<HardDrive className="w-5 h-5 text-cyan-600 dark:text-cyan-500 mr-3" />
+					<h2 className="text-lg font-semibold text-slate-900 dark:text-white">
 						My Registered Devices
 					</h2>
 				</div>
 				<table className="w-full text-left text-sm">
-					<thead className="bg-slate-800/50 text-slate-400 border-b border-slate-800">
+					<thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800">
 						<tr>
 							<th className="px-6 py-3 font-medium">Device Name</th>
 							<th className="px-6 py-3 font-medium">MAC Address</th>
@@ -321,12 +329,12 @@ export default function ProfilePage() {
 							<th className="px-6 py-3 font-medium">Registered</th>
 						</tr>
 					</thead>
-					<tbody className="divide-y divide-slate-800">
+					<tbody className="divide-y divide-slate-200 dark:divide-slate-800">
 						{devices.length === 0 ? (
 							<tr>
 								<td
 									colSpan={4}
-									className="px-6 py-8 text-center text-slate-500">
+									className="px-6 py-8 text-center text-slate-500 dark:text-slate-400">
 									No devices registered yet.
 								</td>
 							</tr>
@@ -334,9 +342,11 @@ export default function ProfilePage() {
 							devices.map((d) => (
 								<tr
 									key={d.id}
-									className="hover:bg-slate-800/20 transition-colors">
-									<td className="px-6 py-3 text-slate-300">{d.name}</td>
-									<td className="px-6 py-3 font-mono text-xs text-slate-400">
+									className="hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors">
+									<td className="px-6 py-3 text-slate-900 dark:text-slate-300">
+										{d.name}
+									</td>
+									<td className="px-6 py-3 font-mono text-xs text-slate-500 dark:text-slate-400">
 										{d.macAddress}
 									</td>
 									<td className="px-6 py-3">

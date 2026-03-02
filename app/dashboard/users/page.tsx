@@ -96,14 +96,14 @@ export default function UsersPage() {
 	}
 
 	return (
-		<div className="max-w-6xl mx-auto text-slate-300">
+		<div className="max-w-6xl mx-auto text-slate-900 dark:text-slate-300">
 			<div className="flex items-center justify-between mb-8">
 				<div>
-					<h1 className="text-2xl font-bold text-white flex items-center">
-						<Users className="w-5 h-5 mr-3 text-blue-500" />
+					<h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center">
+						<Users className="w-5 h-5 mr-3 text-blue-600 dark:text-blue-500" />
 						User Management
 					</h1>
-					<p className="text-sm text-slate-500 mt-1">
+					<p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
 						Manage identities and assign administrative privileges
 					</p>
 				</div>
@@ -115,18 +115,18 @@ export default function UsersPage() {
 				</div>
 			)}
 
-			<div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
-				<div className="p-4 border-b border-slate-800 flex items-center">
-					<Search className="w-5 h-5 text-slate-500 mr-3" />
+			<div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-lg dark:shadow-2xl">
+				<div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center">
+					<Search className="w-5 h-5 text-slate-400 dark:text-slate-500 mr-3" />
 					<input
 						type="text"
 						placeholder="Search users..."
-						className="bg-transparent border-none text-slate-300 focus:outline-none w-full"
+						className="bg-transparent border-none text-slate-900 dark:text-slate-300 focus:outline-none w-full placeholder:text-slate-400 dark:placeholder:text-slate-500"
 						disabled
 					/>
 				</div>
 				<table className="w-full text-left text-sm">
-					<thead className="bg-slate-800/50 text-slate-400 border-b border-slate-800">
+					<thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800">
 						<tr>
 							<th className="px-6 py-4 font-medium">Name</th>
 							<th className="px-6 py-4 font-medium">Email</th>
@@ -136,7 +136,7 @@ export default function UsersPage() {
 							<th className="px-6 py-4 font-medium text-right">Actions</th>
 						</tr>
 					</thead>
-					<tbody className="divide-y divide-slate-800">
+					<tbody className="divide-y divide-slate-200 dark:divide-slate-800">
 						{loading ? (
 							<tr>
 								<td
@@ -157,18 +157,20 @@ export default function UsersPage() {
 							users.map((user) => (
 								<tr
 									key={user.id}
-									className="hover:bg-slate-800/20 transition-colors">
-									<td className="px-6 py-4 font-medium text-slate-300">
+									className="hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors">
+									<td className="px-6 py-4 font-medium text-slate-900 dark:text-slate-300">
 										{user.name}
 									</td>
-									<td className="px-6 py-4 text-slate-400">{user.email}</td>
+									<td className="px-6 py-4 text-slate-500 dark:text-slate-400">
+										{user.email}
+									</td>
 									<td className="px-6 py-4">
 										{user.mfaEnabled ? (
-											<span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+											<span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-500 border border-emerald-200 dark:border-emerald-500/20">
 												<ShieldCheck className="w-3 h-3 mr-1" /> Enabled
 											</span>
 										) : (
-											<span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-800 text-slate-400 border border-slate-700">
+											<span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
 												Pending
 											</span>
 										)}
@@ -202,7 +204,7 @@ export default function UsersPage() {
 												handleRoleChange(user.id, e.target.value)
 											}
 											disabled={updatingId === user.id}
-											className="bg-slate-800 border border-slate-700 text-slate-300 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-24 p-2 disabled:opacity-50">
+											className="bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-300 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-24 p-2 disabled:opacity-50">
 											<option value="user">User</option>
 											<option value="admin">Admin</option>
 										</select>
