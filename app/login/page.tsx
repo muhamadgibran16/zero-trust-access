@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ztFetch } from "../../lib/api";
+import { ztFetch, API_BASE_URL } from "../../lib/api";
 import Link from "next/link";
 
 export default function LoginPage() {
@@ -70,27 +70,12 @@ export default function LoginPage() {
 		}
 	};
 
-	const handleSsoClick = async (provider: string) => {
-		setLoading(true);
-		try {
-			// Mocking an SSO token retrieval (e.g. from Google OAuth popup)
-			const mockSsoToken = "eyJhbGciOiJIUzI1NiIsInR5cCI..."; // dummy
-			const res = await ztFetch("/auth/sso-login", {
-				method: "POST",
-				body: JSON.stringify({ provider, ssoToken: mockSsoToken }),
-				requireAuth: false,
-			});
-			const data = await res.json();
-
-			if (!res.ok) throw new Error(data.error || "SSO Error");
-			localStorage.setItem("accessToken", data.data.accessToken);
-			if (data.data.refreshToken)
-				localStorage.setItem("refreshToken", data.data.refreshToken);
-			router.push("/dashboard");
-		} catch (err: any) {
-			setError(err.message);
-		} finally {
-			setLoading(false);
+	const handleSsoClick = (provider: string) => {
+		if (provider === "google") {
+			// Redirect the browser entirely to the Go backend to start the OAuth2 flow
+			window.location.href = `${API_BASE_URL}/auth/google`;
+		} else {
+			alert(`SSO Provider ${provider} is not configured yet.`);
 		}
 	};
 
@@ -144,6 +129,14 @@ export default function LoginPage() {
 							className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-lg transition-colors disabled:opacity-50">
 							{loading ? "Authenticating..." : "Sign In securely"}
 						</button>
+
+						<div className="text-right">
+							<a
+								href="/forgot-password"
+								className="text-xs text-slate-400 hover:text-blue-400 transition-colors">
+								Forgot Password?
+							</a>
+						</div>
 
 						<div className="pt-4 border-t border-slate-800 flex flex-col space-y-3">
 							<p className="text-xs text-center text-slate-500 uppercase tracking-wider font-semibold">

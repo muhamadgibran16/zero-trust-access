@@ -4,7 +4,24 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ztFetch } from "../../lib/api";
 import { DevicePostureNotice } from "../../components/DevicePostureNotice";
-import { ShieldAlert, Activity } from "lucide-react";
+import {
+	ShieldAlert,
+	Activity,
+	Users,
+	HardDrive,
+	ShieldCheck,
+	AlertTriangle,
+	BarChart3,
+} from "lucide-react";
+
+type Metrics = {
+	totalUsers: number;
+	totalDevices: number;
+	approvedDevices: number;
+	totalAuditLogs: number;
+	blockedRequests: number;
+	activePolicies: number;
+};
 
 export default function AuditLogsPage() {
 	const router = useRouter();
@@ -13,10 +30,24 @@ export default function AuditLogsPage() {
 	const [loading, setLoading] = useState(true);
 	const [isDeviceError, setIsDeviceError] = useState(false);
 	const [isPolicyError, setIsPolicyError] = useState(false);
+	const [metrics, setMetrics] = useState<Metrics | null>(null);
 
 	useEffect(() => {
 		fetchLogs();
+		fetchMetrics();
 	}, []);
+
+	const fetchMetrics = async () => {
+		try {
+			const res = await ztFetch("/users/admin/analytics");
+			const data = await res.json();
+			if (res.ok && data.data) {
+				setMetrics(data.data);
+			}
+		} catch {
+			// Silently fail - metrics are non-critical
+		}
+	};
 
 	const fetchLogs = async () => {
 		setLoading(true);
@@ -43,7 +74,10 @@ export default function AuditLogsPage() {
 			}
 
 			if (data.data) {
-				const mappedLogs = data.data.map((log: any) => ({
+				const logsArray = Array.isArray(data.data)
+					? data.data
+					: data.data.data || [];
+				const mappedLogs = logsArray.map((log: any) => ({
 					id: log.id,
 					user: log.userId || "Unknown",
 					action: log.action,
@@ -93,6 +127,51 @@ export default function AuditLogsPage() {
 		);
 	}
 
+	const metricCards = metrics
+		? [
+				{
+					label: "Total Users",
+					value: metrics.totalUsers,
+					icon: Users,
+					color: "text-blue-400",
+					bg: "bg-blue-500/10",
+					border: "border-blue-500/20",
+				},
+				{
+					label: "Registered Devices",
+					value: metrics.totalDevices,
+					icon: HardDrive,
+					color: "text-cyan-400",
+					bg: "bg-cyan-500/10",
+					border: "border-cyan-500/20",
+				},
+				{
+					label: "Compliant Devices",
+					value: metrics.approvedDevices,
+					icon: ShieldCheck,
+					color: "text-emerald-400",
+					bg: "bg-emerald-500/10",
+					border: "border-emerald-500/20",
+				},
+				{
+					label: "Blocked Requests",
+					value: metrics.blockedRequests,
+					icon: AlertTriangle,
+					color: "text-red-400",
+					bg: "bg-red-500/10",
+					border: "border-red-500/20",
+				},
+				{
+					label: "Active Policies",
+					value: metrics.activePolicies,
+					icon: BarChart3,
+					color: "text-violet-400",
+					bg: "bg-violet-500/10",
+					border: "border-violet-500/20",
+				},
+			]
+		: [];
+
 	return (
 		<div className="max-w-6xl mx-auto text-slate-300">
 			<div className="flex items-center justify-between mb-8">
@@ -106,6 +185,25 @@ export default function AuditLogsPage() {
 					</p>
 				</div>
 			</div>
+
+			{/* Analytics Metrics Cards */}
+			{metricCards.length > 0 && (
+				<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+					{metricCards.map((card) => (
+						<div
+							key={card.label}
+							className={`${card.bg} border ${card.border} rounded-xl p-4 flex flex-col items-center text-center transition-transform hover:scale-105`}>
+							<card.icon className={`w-6 h-6 ${card.color} mb-2`} />
+							<span className="text-2xl font-bold text-white">
+								{card.value}
+							</span>
+							<span className="text-[11px] text-slate-400 mt-1">
+								{card.label}
+							</span>
+						</div>
+					))}
+				</div>
+			)}
 
 			{error && !isDeviceError && !isPolicyError && (
 				<div className="bg-red-500/10 border border-red-500/20 text-red-500 p-4 rounded-lg mb-6">

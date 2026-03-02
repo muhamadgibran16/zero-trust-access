@@ -3,12 +3,14 @@
 import { useEffect, useState } from "react";
 import { ztFetch } from "../../../lib/api";
 import { ShieldCheck, Users, Search, PowerOff } from "lucide-react";
+import { DevicePostureNotice } from "../../../components/DevicePostureNotice";
 
 export default function UsersPage() {
 	const [users, setUsers] = useState<any[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 	const [updatingId, setUpdatingId] = useState<string | null>(null);
+	const [isDeviceError, setIsDeviceError] = useState(false);
 
 	useEffect(() => {
 		fetchUsers();
@@ -17,10 +19,16 @@ export default function UsersPage() {
 	const fetchUsers = async () => {
 		setLoading(true);
 		setError(null);
+		setIsDeviceError(false);
 		try {
 			const res = await ztFetch("/users/admin/users?perPage=50");
 			const data = await res.json();
-			if (!res.ok) throw new Error(data.error || "Failed to fetch users");
+			if (!res.ok) {
+				if (res.status === 403 && data.error?.includes("Device Posture")) {
+					setIsDeviceError(true);
+				}
+				throw new Error(data.error || "Failed to fetch users");
+			}
 			if (data.data) {
 				setUsers(data.data);
 			} else {
@@ -79,6 +87,14 @@ export default function UsersPage() {
 		}
 	};
 
+	if (isDeviceError) {
+		return (
+			<div className="flex flex-col items-center justify-center p-4 h-[80vh]">
+				<DevicePostureNotice message={error || ""} onRetry={fetchUsers} />
+			</div>
+		);
+	}
+
 	return (
 		<div className="max-w-6xl mx-auto text-slate-300">
 			<div className="flex items-center justify-between mb-8">
@@ -93,7 +109,7 @@ export default function UsersPage() {
 				</div>
 			</div>
 
-			{error && (
+			{error && !isDeviceError && (
 				<div className="bg-red-500/10 border border-red-500/20 text-red-500 p-4 rounded-lg mb-6">
 					Error: {error}
 				</div>
@@ -115,6 +131,7 @@ export default function UsersPage() {
 							<th className="px-6 py-4 font-medium">Name</th>
 							<th className="px-6 py-4 font-medium">Email</th>
 							<th className="px-6 py-4 font-medium">MFA Status</th>
+							<th className="px-6 py-4 font-medium">Risk Score</th>
 							<th className="px-6 py-4 font-medium">Role</th>
 							<th className="px-6 py-4 font-medium text-right">Actions</th>
 						</tr>
@@ -155,6 +172,18 @@ export default function UsersPage() {
 												Pending
 											</span>
 										)}
+									</td>
+									<td className="px-6 py-4">
+										<span
+											className={`font-mono text-sm font-bold ${
+												user.riskScore >= 100
+													? "text-red-500"
+													: user.riskScore >= 50
+														? "text-amber-500"
+														: "text-emerald-500"
+											}`}>
+											{user.riskScore || 0}
+										</span>
 									</td>
 									<td className="px-6 py-4">
 										<span

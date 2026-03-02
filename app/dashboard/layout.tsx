@@ -3,8 +3,20 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { ShieldCheck, LogOut, Activity, Users, FileLock } from "lucide-react";
+import {
+	ShieldCheck,
+	LogOut,
+	Activity,
+	Users,
+	FileLock,
+	HardDrive,
+	UserCircle,
+	Server,
+	Globe,
+	Router,
+} from "lucide-react";
 import { ztFetch } from "../../lib/api";
+import { NotificationBell } from "../../components/NotificationBell";
 
 export default function DashboardLayout({
 	children,
@@ -69,6 +81,14 @@ export default function DashboardLayout({
 		{ name: "Audit Logs", href: "/dashboard", icon: Activity },
 		{ name: "User Management", href: "/dashboard/users", icon: Users },
 		{ name: "Security Policies", href: "/dashboard/policies", icon: FileLock },
+		{ name: "Devices (MDM)", href: "/dashboard/devices", icon: HardDrive },
+		{
+			name: "App Gateway Rules",
+			href: "/dashboard/proxy-routes",
+			icon: Router,
+		},
+		{ name: "App Portal", href: "/dashboard/portal", icon: Globe },
+		{ name: "System Monitoring", href: "/dashboard/monitoring", icon: Server },
 	];
 
 	return (
@@ -120,10 +140,20 @@ export default function DashboardLayout({
 
 			{/* Main Content */}
 			<div className="flex-1 flex flex-col overflow-hidden">
-				<header className="h-16 border-b border-slate-800 bg-slate-900/50 flex items-center justify-end px-8">
+				<header className="h-16 border-b border-slate-800 bg-slate-900/50 flex items-center justify-between px-8">
 					<div className="bg-emerald-500/10 text-emerald-500 px-3 py-1 rounded-full text-xs font-medium border border-emerald-500/20 flex items-center hidden sm:flex">
 						<span className="w-2 h-2 rounded-full bg-emerald-500 mr-2 animate-pulse"></span>
 						End-to-End Encrypted Tunnel Active
+					</div>
+					<div className="flex items-center space-x-4">
+						<NotificationBell />
+						<Link
+							href="/dashboard/profile"
+							className="flex items-center text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 px-3 py-2 rounded-lg transition-colors border border-transparent hover:border-slate-700"
+							title="My Profile">
+							<UserCircle className="w-5 h-5 sm:mr-2" />
+							<span className="hidden sm:inline-block">My Profile</span>
+						</Link>
 					</div>
 				</header>
 				<main className="flex-1 overflow-y-auto p-8 relative">

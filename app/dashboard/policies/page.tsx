@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { ztFetch } from "../../../lib/api";
 import { FileLock, Plus, Trash2, Power, PowerOff } from "lucide-react";
+import { DevicePostureNotice } from "../../../components/DevicePostureNotice";
 
 type PolicyRule = {
 	id: string;
@@ -17,6 +18,7 @@ export default function PoliciesPage() {
 	const [policies, setPolicies] = useState<PolicyRule[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
+	const [isDeviceError, setIsDeviceError] = useState(false);
 
 	const [newType, setNewType] = useState("DENY_IP");
 	const [newValue, setNewValue] = useState("");
@@ -30,10 +32,16 @@ export default function PoliciesPage() {
 	const fetchPolicies = async () => {
 		setLoading(true);
 		setError(null);
+		setIsDeviceError(false);
 		try {
 			const res = await ztFetch("/users/admin/policies");
 			const data = await res.json();
-			if (!res.ok) throw new Error(data.error || "Failed to fetch policies");
+			if (!res.ok) {
+				if (res.status === 403 && data.error?.includes("Device Posture")) {
+					setIsDeviceError(true);
+				}
+				throw new Error(data.error || "Failed to fetch policies");
+			}
 			if (data.data) {
 				setPolicies(data.data);
 			} else {
@@ -109,6 +117,14 @@ export default function PoliciesPage() {
 		}
 	};
 
+	if (isDeviceError) {
+		return (
+			<div className="flex flex-col items-center justify-center p-4 h-[80vh]">
+				<DevicePostureNotice message={error || ""} onRetry={fetchPolicies} />
+			</div>
+		);
+	}
+
 	return (
 		<div className="max-w-6xl mx-auto text-slate-300">
 			<div className="flex items-center justify-between mb-8">
@@ -123,7 +139,7 @@ export default function PoliciesPage() {
 				</div>
 			</div>
 
-			{error && (
+			{error && !isDeviceError && (
 				<div className="bg-red-500/10 border border-red-500/20 text-red-500 p-4 rounded-lg mb-6">
 					Error: {error}
 				</div>

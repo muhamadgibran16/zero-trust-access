@@ -1,5 +1,5 @@
 export const API_BASE_URL =
-	process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api/v1";
+	process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8080/api/v1";
 
 interface FetchOptions extends RequestInit {
 	requireAuth?: boolean;
@@ -19,6 +19,23 @@ export async function ztFetch(endpoint: string, options: FetchOptions = {}) {
 	headers.set("X-Device-OS", "macOS-14.2.1");
 	headers.set("X-Device-Secure", "true");
 	headers.set("X-Device-Rooted", "false");
+
+	// Hardware identifier for MDM Posture Check
+	let deviceMac =
+		typeof window !== "undefined" ? localStorage.getItem("deviceMac") : null;
+	if (!deviceMac && typeof window !== "undefined") {
+		// Generate a random mock MAC for this browser instance to test the flow
+		const genHex = () =>
+			Math.floor(Math.random() * 255)
+				.toString(16)
+				.padStart(2, "0")
+				.toUpperCase();
+		deviceMac = `00:1A:2B:${genHex()}:${genHex()}:${genHex()}`;
+		localStorage.setItem("deviceMac", deviceMac);
+	}
+	if (deviceMac) {
+		headers.set("X-Device-MAC", deviceMac);
+	}
 
 	// Mock Cloaking secret for bypassing tunnel restrictions during testing
 	headers.set("X-Tunnel-Secret", "zT-tunnel-s3cr3t");
@@ -78,16 +95,19 @@ export async function ztFetch(endpoint: string, options: FetchOptions = {}) {
 					}
 				} else {
 					// Refresh failed, clear everything
-					localStorage.clear();
+					localStorage.removeItem("accessToken");
+					localStorage.removeItem("refreshToken");
 					window.location.href = "/login";
 				}
 			} catch (e) {
-				localStorage.clear();
+				localStorage.removeItem("accessToken");
+				localStorage.removeItem("refreshToken");
 				window.location.href = "/login";
 			}
 		} else {
 			// No refresh token, force logout
-			localStorage.clear();
+			localStorage.removeItem("accessToken");
+			localStorage.removeItem("refreshToken");
 			window.location.href = "/login";
 		}
 	}
