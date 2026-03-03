@@ -2,20 +2,29 @@
 
 import { useEffect, useState } from "react";
 import { ztFetch } from "../../../lib/api";
-import { FileLock, Plus, Trash2, Power, PowerOff } from "lucide-react";
+import { FileLock, Plus, Trash2, Power, PowerOff, Globe } from "lucide-react";
 import { DevicePostureNotice } from "../../../components/DevicePostureNotice";
+
+type AppRoute = {
+	id: string;
+	name: string;
+	pathPrefix: string;
+};
 
 type PolicyRule = {
 	id: string;
 	type: string;
 	value: string;
 	resource: string;
+	appRouteId: string | null;
+	appRoute: AppRoute | null;
 	isActive: boolean;
 	createdAt: string;
 };
 
 export default function PoliciesPage() {
 	const [policies, setPolicies] = useState<PolicyRule[]>([]);
+	const [appRoutes, setAppRoutes] = useState<AppRoute[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 	const [isDeviceError, setIsDeviceError] = useState(false);
@@ -23,10 +32,12 @@ export default function PoliciesPage() {
 	const [newType, setNewType] = useState("DENY_IP");
 	const [newValue, setNewValue] = useState("");
 	const [newResource, setNewResource] = useState("");
+	const [newAppRouteId, setNewAppRouteId] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	useEffect(() => {
 		fetchPolicies();
+		fetchAppRoutes();
 	}, []);
 
 	const fetchPolicies = async () => {
@@ -54,6 +65,18 @@ export default function PoliciesPage() {
 		}
 	};
 
+	const fetchAppRoutes = async () => {
+		try {
+			const res = await ztFetch("/users/admin/proxy-routes");
+			const data = await res.json();
+			if (res.ok && data.data) {
+				setAppRoutes(data.data);
+			}
+		} catch {
+			// non-critical
+		}
+	};
+
 	const handleCreate = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (!newValue) return;
@@ -66,6 +89,7 @@ export default function PoliciesPage() {
 					type: newType,
 					value: newValue,
 					resource: newResource || "",
+					appRouteId: newAppRouteId || "",
 					isActive: true,
 				}),
 			});
@@ -74,6 +98,7 @@ export default function PoliciesPage() {
 
 			setNewValue("");
 			setNewResource("");
+			setNewAppRouteId("");
 			fetchPolicies();
 		} catch (err: any) {
 			alert(err.message);
@@ -134,7 +159,7 @@ export default function PoliciesPage() {
 						Security Policies
 					</h1>
 					<p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-						Build dynamic access rules to restrict Zero Trust endpoints
+						Build per-app or global access rules for Zero Trust endpoints
 					</p>
 				</div>
 			</div>
@@ -156,6 +181,28 @@ export default function PoliciesPage() {
 						</h2>
 
 						<div className="space-y-4">
+							{/* Target App */}
+							<div>
+								<label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
+									Target Application
+								</label>
+								<select
+									value={newAppRouteId}
+									onChange={(e) => setNewAppRouteId(e.target.value)}
+									className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+									<option value="">🌐 Global (All Endpoints)</option>
+									{appRoutes.map((route) => (
+										<option key={route.id} value={route.id}>
+											{route.name} ({route.pathPrefix})
+										</option>
+									))}
+								</select>
+								<p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">
+									Select an app to apply this policy only to that app, or leave
+									as Global.
+								</p>
+							</div>
+
 							<div>
 								<label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
 									Rule Type
@@ -194,21 +241,24 @@ export default function PoliciesPage() {
 								/>
 							</div>
 
-							<div>
-								<label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
-									Target Resource Prefix (Optional)
-								</label>
-								<input
-									type="text"
-									placeholder="e.g., /api/v1/finance"
-									value={newResource}
-									onChange={(e) => setNewResource(e.target.value)}
-									className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-								/>
-								<p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">
-									Leave blank for global enforcement.
-								</p>
-							</div>
+							{/* Resource prefix — only show when Global is selected */}
+							{!newAppRouteId && (
+								<div>
+									<label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
+										Target Resource Prefix (Optional)
+									</label>
+									<input
+										type="text"
+										placeholder="e.g., /api/v1/users/admin"
+										value={newResource}
+										onChange={(e) => setNewResource(e.target.value)}
+										className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+									/>
+									<p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">
+										Leave blank for global enforcement across all endpoints.
+									</p>
+								</div>
+							)}
 
 							<button
 								type="submit"
@@ -233,8 +283,8 @@ export default function PoliciesPage() {
 							<thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800">
 								<tr>
 									<th className="px-6 py-4 font-medium">Type</th>
-									<th className="px-6 py-4 font-medium">Value target</th>
-									<th className="px-6 py-4 font-medium">Resource Prefix</th>
+									<th className="px-6 py-4 font-medium">Value</th>
+									<th className="px-6 py-4 font-medium">Target App</th>
 									<th className="px-6 py-4 font-medium text-right">Actions</th>
 								</tr>
 							</thead>
@@ -279,10 +329,15 @@ export default function PoliciesPage() {
 											<td className="px-6 py-4 text-slate-900 dark:text-slate-300 font-mono text-xs">
 												{policy.value}
 											</td>
-											<td className="px-6 py-4 text-slate-900 dark:text-slate-300 font-mono text-xs">
-												{policy.resource || (
-													<span className="text-slate-500 dark:text-slate-400 italic">
-														GLOBAL
+											<td className="px-6 py-4">
+												{policy.appRoute ? (
+													<span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/20">
+														{policy.appRoute.name}
+													</span>
+												) : (
+													<span className="inline-flex items-center text-xs text-slate-500 dark:text-slate-400">
+														<Globe className="w-3 h-3 mr-1" />
+														{policy.resource || "Global"}
 													</span>
 												)}
 											</td>
