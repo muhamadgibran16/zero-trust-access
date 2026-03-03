@@ -66,32 +66,19 @@ export default function PortalPage() {
 
 	// Function to get absolute URL for the proxy
 	const getProxyUrl = (pathPrefix: string) => {
-		// Construct the proxy URL using the backend API base URL
-		// Example: http://localhost:8080/api/v1/users/proxy/hr-app
+		// Construct the proxy URL using the Next.js proxy base URL
+		// The Next.js rewrite will forward this to the backend at 127.0.0.1:8080
 		const cleanPrefix = pathPrefix.startsWith("/")
 			? pathPrefix.substring(1)
 			: pathPrefix;
-		return `${API_BASE_URL}/users/proxy/${cleanPrefix}`;
+		return `${API_BASE_URL}/users/proxy/${cleanPrefix}/`;
 	};
 
-	// Function to handle opening an app, appending authentication headers if possible,
-	// though cookies/session are better for standard web apps behind IAP.
+	// Open the app in a new tab. Since we use HttpOnly cookies (same-origin via Next.js proxy),
+	// the access_token cookie is automatically sent by the browser with the request.
 	const handleOpenApp = (pathPrefix: string) => {
-		const token = localStorage.getItem("accessToken");
 		const url = getProxyUrl(pathPrefix);
-
-		// In a real-world scenario, we'd either:
-		// 1. Set a secure cookie for the proxy domain
-		// 2. Open a new window and inject the header (complex due to CORS in some setups)
-		// 3. For this demo, we'll append the token as a query param (simple but less secure) or just rely on the API base URL if they share cookies.
-		// Since we are using Bearer tokens, we can open the URL and let the browser try.
-		// Note: The /proxy route requires auth. If using standard links, standard browser requests won't have the Authorization header.
-		// A common trick is to use a service worker or append a temporary short-lived auth ticket to the URL.
-		// For our demo, we'll open the URL. It will only work natively if the user has a valid session cookie,
-		// but since we use localStorage JWT, we might need a workaround.
-
-		// Workaround for demo: open in new tab with the token in URL (not recommended for production)
-		window.open(`${url}?token=${token}`, "_blank");
+		window.open(url, "_blank");
 	};
 
 	return (
