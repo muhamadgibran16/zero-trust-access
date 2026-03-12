@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { ztFetch, API_BASE_URL } from "../../../lib/api";
 import { DevicePostureNotice } from "../../../components/DevicePostureNotice";
 import { ExternalLink, Globe, Lock, ShieldAlert } from "lucide-react";
@@ -83,13 +84,19 @@ export default function PortalPage() {
 
 	return (
 		<div className="max-w-6xl mx-auto p-4 md:p-8">
-			<div className="flex items-center space-x-3 mb-8">
-				<div className="p-2 bg-indigo-50 dark:bg-indigo-500/10 rounded-lg">
-					<Globe className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+			<div className="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-6 mb-8 pb-6 border-b border-slate-200 dark:border-slate-800">
+				<div className="flex-shrink-0 bg-white/50 dark:bg-slate-900/50 p-2 rounded-xl">
+					<Image
+						src="/logo.png"
+						alt="FortiGateX Logo"
+						width={50}
+						height={50}
+						className="object-contain"
+					/>
 				</div>
 				<div>
 					<h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
-						App Portal
+						Enterprise Portal
 					</h1>
 					<p className="text-sm text-slate-500 dark:text-slate-400">
 						Securely access internal enterprise applications

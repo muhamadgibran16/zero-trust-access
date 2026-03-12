@@ -106,7 +106,7 @@ export default function LoginPage() {
 						alt="FortiGateX Logo"
 						width={64}
 						height={64}
-						className="mx-auto mb-4 object-contain"
+						className="mx-auto mb-2 object-contain"
 					/>
 					<h1 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
 						FortiGateX

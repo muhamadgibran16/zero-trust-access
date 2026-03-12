@@ -39,6 +39,7 @@ export default function ProxyRoutesPage() {
 		description: "",
 		pathPrefix: "",
 		targetUrl: "",
+		proxySecret: "",
 		icon: "🌐",
 		isActive: true,
 	});
@@ -77,6 +78,7 @@ export default function ProxyRoutesPage() {
 				description: route.description,
 				pathPrefix: route.pathPrefix,
 				targetUrl: route.targetUrl,
+				proxySecret: (route as any).proxySecret || "", // using as any since type definition from backend might not be fully synced yet
 				icon: route.icon || "🌐",
 				isActive: route.isActive,
 			});
@@ -87,6 +89,7 @@ export default function ProxyRoutesPage() {
 				description: "",
 				pathPrefix: "/",
 				targetUrl: "http://",
+				proxySecret: "",
 				icon: "🌐",
 				isActive: true,
 			});
@@ -379,6 +382,43 @@ export default function ProxyRoutesPage() {
 									The real backend server address to proxy traffic to
 								</p>
 							</div>
+
+							{editingRoute ? (
+								<div>
+									<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+										Shared Proxy Secret
+									</label>
+									<div className="flex items-center space-x-2">
+										<code className="flex-1 bg-slate-100 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 rounded-lg px-4 py-2.5 text-slate-900 dark:text-emerald-400 font-mono text-sm break-all select-all">
+											{formData.proxySecret || "Not generated yet"}
+										</code>
+									</div>
+									<p className="text-xs text-slate-500 mt-2">
+										Injected as{" "}
+										<code className="font-mono text-indigo-600 dark:text-indigo-400">
+											X-Proxy-Secret
+										</code>{" "}
+										header so your app can block requests bypassing FortiGateX.
+									</p>
+								</div>
+							) : (
+								<div>
+									<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+										Shared Proxy Secret
+									</label>
+									<div className="w-full bg-slate-50 dark:bg-slate-950/50 border border-indigo-200/50 dark:border-indigo-900/30 rounded-lg px-4 py-2.5 text-slate-500 dark:text-slate-400 text-sm italic flex items-center">
+										<CheckCircle2 className="w-4 h-4 text-emerald-500 mr-2" />A
+										highly secure secret will be auto-generated.
+									</div>
+									<p className="text-xs text-slate-500 mt-2">
+										Injected as{" "}
+										<code className="font-mono text-indigo-600 dark:text-indigo-400">
+											X-Proxy-Secret
+										</code>{" "}
+										header.
+									</p>
+								</div>
+							)}
 
 							<div className="flex items-center mt-4">
 								<input

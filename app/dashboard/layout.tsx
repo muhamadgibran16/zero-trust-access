@@ -103,11 +103,11 @@ export default function DashboardLayout({
 					<Image
 						src="/logo.png"
 						alt="FortiGateX Logo"
-						width={36}
-						height={36}
+						width={40}
+						height={40}
 						className="mr-3 object-contain"
 					/>
-					<span className="font-semibold text-xl text-gradient bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-green-500 dark:text-white tracking-wide">
+					<span className="font-semibold text-xl bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-cyan-500 to-emerald-500 tracking-wide">
 						FortiGateX
 					</span>
 				</div>
