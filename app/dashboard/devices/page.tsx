@@ -126,14 +126,14 @@ export default function DevicesPage() {
 	};
 
 	return (
-		<div className="max-w-6xl mx-auto text-slate-900 dark:text-slate-300">
+		<div className="max-w-6xl mx-auto text-slate-900">
 			<div className="flex items-center justify-between mb-8">
 				<div>
-					<h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center">
-						<MonitorCheck className="w-5 h-5 mr-3 text-cyan-600 dark:text-cyan-500" />
+					<h1 className="text-2xl font-bold text-slate-900 flex items-center">
+						<MonitorCheck className="w-5 h-5 mr-3 text-cyan-600" />
 						Device Posture (MDM)
 					</h1>
-					<p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+					<p className="text-sm text-slate-500 mt-1">
 						Manage corporate-issued and BYOD hardware identifiers for zero trust
 						networks
 					</p>
@@ -152,21 +152,21 @@ export default function DevicesPage() {
 				<div className="xl:col-span-1">
 					<form
 						onSubmit={handleRegister}
-						className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-lg dark:shadow-2xl relative overflow-hidden">
+						className="bg-white border border-slate-200 rounded-xl p-6 shadow-lg relative overflow-hidden">
 						{/* Decorative background element */}
 						<div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
 							<MonitorCheck className="w-32 h-32" />
 						</div>
-						<h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-4 relative z-10">
+						<h2 className="text-lg font-semibold text-slate-900 mb-4 relative z-10">
 							Register Device
 						</h2>
-						<p className="text-xs text-slate-500 dark:text-slate-400 mb-6 relative z-10">
+						<p className="text-xs text-slate-500 mb-6 relative z-10">
 							Submit a new device for IT compliance and trust approval.
 						</p>
 
 						<div className="space-y-4 relative z-10">
 							<div>
-								<label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
+								<label className="block text-xs font-medium text-slate-500 mb-1">
 									MAC Address <span className="text-red-500">*</span>
 								</label>
 								<input
@@ -175,12 +175,12 @@ export default function DevicesPage() {
 									placeholder="e.g. 00:1A:2B:3C:4D:5E"
 									value={newMac}
 									onChange={(e) => setNewMac(e.target.value)}
-									className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 font-mono"
+									className="w-full bg-slate-50 border border-slate-300 rounded-lg text-slate-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 font-mono"
 								/>
 							</div>
 
 							<div>
-								<label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
+								<label className="block text-xs font-medium text-slate-500 mb-1">
 									Device Nickname <span className="text-red-500">*</span>
 								</label>
 								<input
@@ -189,7 +189,7 @@ export default function DevicesPage() {
 									placeholder="e.g. John's MacBook Pro"
 									value={newName}
 									onChange={(e) => setNewName(e.target.value)}
-									className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
+									className="w-full bg-slate-50 border border-slate-300 rounded-lg text-slate-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
 								/>
 							</div>
 
@@ -211,23 +211,23 @@ export default function DevicesPage() {
 
 				{/* Device Fleet View */}
 				<div className="xl:col-span-3">
-					<div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-lg dark:shadow-2xl">
-						<div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+					<div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-lg">
+						<div className="p-4 border-b border-slate-200 flex items-center justify-between">
 							<div className="flex items-center w-full max-w-md">
-								<Search className="w-5 h-5 text-slate-400 dark:text-slate-500 mr-3" />
+								<Search className="w-5 h-5 text-slate-400 mr-3" />
 								<input
 									type="text"
 									placeholder="Search fleet..."
-									className="bg-transparent border-none text-slate-900 dark:text-slate-300 focus:outline-none w-full text-sm placeholder:text-slate-400 dark:placeholder:text-slate-500"
+									className="bg-transparent border-none text-slate-900 focus:outline-none w-full text-sm placeholder:text-slate-400"
 									disabled
 								/>
 							</div>
-							<span className="text-xs text-slate-400 dark:text-slate-500 hidden sm:inline-block">
+							<span className="text-xs text-slate-400 hidden sm:inline-block">
 								Total Fleet Size: {devices.length}
 							</span>
 						</div>
 						<table className="w-full text-left text-sm whitespace-nowrap">
-							<thead className="bg-slate-50 dark:bg-slate-800/80 text-slate-500 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700">
+							<thead className="bg-slate-50 text-slate-500 border-b border-slate-200">
 								<tr>
 									<th className="px-6 py-4 font-semibold text-xs tracking-wider uppercase">
 										Owner
@@ -243,7 +243,7 @@ export default function DevicesPage() {
 									</th>
 								</tr>
 							</thead>
-							<tbody className="divide-y divide-slate-200 dark:divide-slate-800/50">
+							<tbody className="divide-y divide-slate-200">
 								{loading ? (
 									<tr>
 										<td
@@ -273,10 +273,10 @@ export default function DevicesPage() {
 									devices.map((device) => (
 										<tr
 											key={device.id}
-											className={`hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors ${!device.isApproved ? "opacity-75 bg-slate-50 dark:bg-slate-800/10" : ""}`}>
+											className={`hover:bg-slate-50 transition-colors ${!device.isApproved ? "opacity-75 bg-slate-50" : ""}`}>
 											<td className="px-6 py-4">
 												<div className="flex flex-col">
-													<span className="font-medium text-slate-900 dark:text-slate-200">
+													<span className="font-medium text-slate-900">
 														{device.User?.name || "Unknown"}
 													</span>
 													<span className="text-xs text-slate-500 font-mono mt-0.5">
@@ -286,7 +286,7 @@ export default function DevicesPage() {
 											</td>
 											<td className="px-6 py-4">
 												<div className="flex flex-col">
-													<span className="font-medium text-slate-900 dark:text-slate-300">
+													<span className="font-medium text-slate-900">
 														{device.name}
 													</span>
 													<span className="text-[11px] text-slate-500 font-mono mt-0.5 tracking-wider">

@@ -19,7 +19,6 @@ import {
 } from "lucide-react";
 import { ztFetch } from "../../lib/api";
 import { NotificationBell } from "../../components/NotificationBell";
-import { ThemeToggle } from "../../components/ThemeToggle";
 
 export default function DashboardLayout({
 	children,
@@ -96,10 +95,10 @@ export default function DashboardLayout({
 	];
 
 	return (
-		<div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex text-slate-900 dark:text-slate-300 transition-colors">
+		<div className="min-h-screen bg-slate-50 flex text-slate-900 transition-colors">
 			{/* Sidebar */}
-			<div className="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col transition-colors">
-				<div className="h-20 flex items-center px-6 border-b border-slate-200 dark:border-slate-800">
+			<div className="w-64 bg-white border-r border-slate-200 flex flex-col transition-colors">
+				<div className="h-20 flex items-center px-6 border-b border-slate-200">
 					<Image
 						src="/logo.png"
 						alt="FortiGateX Logo"
@@ -120,12 +119,12 @@ export default function DashboardLayout({
 								href={item.href}
 								className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
 									isActive
-										? "bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white"
-										: "text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800/50"
+										? "bg-blue-50 text-blue-700"
+										: "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
 								}`}>
 								<item.icon
 									className={`w-5 h-5 mr-3 ${
-										isActive ? "text-blue-500" : "text-slate-500"
+										isActive ? "text-blue-500" : "text-slate-400"
 									}`}
 								/>
 								{item.name}
@@ -133,15 +132,15 @@ export default function DashboardLayout({
 						);
 					})}
 				</nav>
-				<div className="p-4 border-t border-slate-200 dark:border-slate-800">
+				<div className="p-4 border-t border-slate-200">
 					<button
 						onClick={startMfaSetup}
-						className="w-full mb-2 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-white px-4 py-2 rounded-lg text-sm font-medium border border-slate-300 dark:border-slate-700 transition-colors">
+						className="w-full mb-2 bg-white hover:bg-slate-50 text-slate-700 px-4 py-2 rounded-lg text-sm font-medium border border-slate-300 transition-colors">
 						Setup MFA
 					</button>
 					<button
 						onClick={logout}
-						className="w-full flex items-center justify-center px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800 rounded-lg transition-colors">
+						className="w-full flex items-center justify-center px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors">
 						<LogOut className="w-4 h-4 mr-2" />
 						Sign Out
 					</button>
@@ -150,17 +149,16 @@ export default function DashboardLayout({
 
 			{/* Main Content */}
 			<div className="flex-1 flex flex-col overflow-hidden">
-				<header className="h-16 border-b border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm flex items-center justify-between px-8">
-					<div className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-500 px-3 py-1 rounded-full text-xs font-medium border border-emerald-500/20 flex items-center hidden sm:flex">
+				<header className="h-16 border-b border-slate-200 bg-white/70 backdrop-blur-sm flex items-center justify-between px-8">
+					<div className="bg-emerald-500/10 text-emerald-600 px-3 py-1 rounded-full text-xs font-medium border border-emerald-500/20 flex items-center hidden sm:flex">
 						<span className="w-2 h-2 rounded-full bg-emerald-500 mr-2 animate-pulse"></span>
 						End-to-End Encrypted Tunnel Active
 					</div>
 					<div className="flex items-center space-x-2 sm:space-x-4">
-						<ThemeToggle />
 						<NotificationBell />
 						<Link
 							href="/dashboard/profile"
-							className="flex items-center text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800/50 px-3 py-2 rounded-lg transition-colors border border-transparent hover:border-slate-200 dark:hover:border-slate-700"
+							className="flex items-center text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 px-3 py-2 rounded-lg transition-colors border border-transparent hover:border-slate-200"
 							title="My Profile">
 							<UserCircle className="w-5 h-5 sm:mr-2" />
 							<span className="hidden sm:inline-block">My Profile</span>
@@ -169,21 +167,21 @@ export default function DashboardLayout({
 				</header>
 				<main className="flex-1 overflow-y-auto p-8 relative">
 					{showMfaSetup && mfaSecret && (
-						<div className="absolute top-8 left-1/2 -translate-x-1/2 z-50 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 mb-8 text-center max-w-md w-full shadow-2xl">
+						<div className="absolute top-8 left-1/2 -translate-x-1/2 z-50 bg-white border border-slate-200 rounded-xl p-6 mb-8 text-center max-w-md w-full shadow-2xl">
 							<button
 								onClick={() => setShowMfaSetup(false)}
-								className="absolute top-4 right-4 text-slate-400 hover:text-slate-900 dark:text-slate-500 dark:hover:text-white">
+								className="absolute top-4 right-4 text-slate-400 hover:text-slate-700">
 								&times;
 							</button>
 							<ShieldCheck className="w-10 h-10 text-blue-500 mx-auto mb-4" />
-							<h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+							<h3 className="text-xl font-bold text-slate-900 mb-2">
 								Enable Authenticator App
 							</h3>
-							<p className="text-slate-500 dark:text-slate-400 text-sm mb-4">
+							<p className="text-slate-500 text-sm mb-4">
 								Enter this text code into your Authenticator App (like Google
 								Authenticator):
 							</p>
-							<div className="bg-slate-100 dark:bg-slate-950 p-3 rounded text-emerald-600 dark:text-emerald-400 font-mono text-lg tracking-widest text-center select-all mb-4">
+							<div className="bg-slate-100 p-3 rounded text-emerald-600 font-mono text-lg tracking-widest text-center select-all mb-4">
 								{mfaSecret}
 							</div>
 							<div className="flex space-x-2">
@@ -192,7 +190,7 @@ export default function DashboardLayout({
 									placeholder="6-digit code"
 									value={mfaCodeInput}
 									onChange={(e) => setMfaCodeInput(e.target.value)}
-									className="bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white px-4 py-2 rounded-lg flex-1 text-center font-mono tracking-widest border"
+									className="bg-white border-slate-300 text-slate-900 px-4 py-2 rounded-lg flex-1 text-center font-mono tracking-widest border"
 									maxLength={6}
 								/>
 								<button
@@ -205,7 +203,7 @@ export default function DashboardLayout({
 								<p
 									className={`mt-3 text-sm ${
 										mfaStatus.includes("success")
-											? "text-emerald-500"
+											? "text-emerald-600"
 											: "text-amber-500"
 									}`}>
 									{mfaStatus}

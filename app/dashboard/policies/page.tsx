@@ -151,14 +151,14 @@ export default function PoliciesPage() {
 	}
 
 	return (
-		<div className="max-w-6xl mx-auto text-slate-900 dark:text-slate-300">
+		<div className="max-w-6xl mx-auto text-slate-900">
 			<div className="flex items-center justify-between mb-8">
 				<div>
-					<h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center">
-						<FileLock className="w-5 h-5 mr-3 text-emerald-600 dark:text-emerald-500" />
+					<h1 className="text-2xl font-bold text-slate-900 flex items-center">
+						<FileLock className="w-5 h-5 mr-3 text-emerald-600" />
 						Security Policies
 					</h1>
-					<p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+					<p className="text-sm text-slate-500 mt-1">
 						Build per-app or global access rules for Zero Trust endpoints
 					</p>
 				</div>
@@ -175,21 +175,21 @@ export default function PoliciesPage() {
 				<div className="lg:col-span-1">
 					<form
 						onSubmit={handleCreate}
-						className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-lg dark:shadow-2xl">
-						<h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">
+						className="bg-white border border-slate-200 rounded-xl p-6 shadow-lg">
+						<h2 className="text-lg font-semibold text-slate-900 mb-4">
 							Create Policy
 						</h2>
 
 						<div className="space-y-4">
 							{/* Target App */}
 							<div>
-								<label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
+								<label className="block text-xs font-medium text-slate-500 mb-1">
 									Target Application
 								</label>
 								<select
 									value={newAppRouteId}
 									onChange={(e) => setNewAppRouteId(e.target.value)}
-									className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+									className="w-full bg-slate-50 border border-slate-300 rounded-lg text-slate-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
 									<option value="">🌐 Global (All Endpoints)</option>
 									{appRoutes.map((route) => (
 										<option key={route.id} value={route.id}>
@@ -197,20 +197,20 @@ export default function PoliciesPage() {
 										</option>
 									))}
 								</select>
-								<p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">
+								<p className="text-[10px] text-slate-500 mt-1">
 									Select an app to apply this policy only to that app, or leave
 									as Global.
 								</p>
 							</div>
 
 							<div>
-								<label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
+								<label className="block text-xs font-medium text-slate-500 mb-1">
 									Rule Type
 								</label>
 								<select
 									value={newType}
 									onChange={(e) => setNewType(e.target.value)}
-									className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+									className="w-full bg-slate-50 border border-slate-300 rounded-lg text-slate-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
 									<option value="DENY_IP">DENY IP Address</option>
 									<option value="ALLOW_IP">ALLOW IP Address</option>
 									<option value="REQUIRE_ROLE">Require Minimum Role</option>
@@ -220,7 +220,7 @@ export default function PoliciesPage() {
 							</div>
 
 							<div>
-								<label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
+								<label className="block text-xs font-medium text-slate-500 mb-1">
 									Value <span className="text-red-500">*</span>
 								</label>
 								<input
@@ -237,14 +237,14 @@ export default function PoliciesPage() {
 									}
 									value={newValue}
 									onChange={(e) => setNewValue(e.target.value)}
-									className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+									className="w-full bg-slate-50 border border-slate-300 rounded-lg text-slate-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
 								/>
 							</div>
 
 							{/* Resource prefix — only show when Global is selected */}
 							{!newAppRouteId && (
 								<div>
-									<label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
+									<label className="block text-xs font-medium text-slate-500 mb-1">
 										Target Resource Prefix (Optional)
 									</label>
 									<input
@@ -252,9 +252,9 @@ export default function PoliciesPage() {
 										placeholder="e.g., /api/v1/users/admin"
 										value={newResource}
 										onChange={(e) => setNewResource(e.target.value)}
-										className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+										className="w-full bg-slate-50 border border-slate-300 rounded-lg text-slate-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
 									/>
-									<p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">
+									<p className="text-[10px] text-slate-500 mt-1">
 										Leave blank for global enforcement across all endpoints.
 									</p>
 								</div>
@@ -278,9 +278,9 @@ export default function PoliciesPage() {
 
 				{/* Policy List */}
 				<div className="lg:col-span-2">
-					<div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-lg dark:shadow-2xl">
+					<div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-lg">
 						<table className="w-full text-left text-sm">
-							<thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800">
+							<thead className="bg-slate-50 text-slate-500 border-b border-slate-200">
 								<tr>
 									<th className="px-6 py-4 font-medium">Type</th>
 									<th className="px-6 py-4 font-medium">Value</th>
@@ -288,12 +288,12 @@ export default function PoliciesPage() {
 									<th className="px-6 py-4 font-medium text-right">Actions</th>
 								</tr>
 							</thead>
-							<tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+							<tbody className="divide-y divide-slate-200">
 								{loading ? (
 									<tr>
 										<td
 											colSpan={4}
-											className="px-6 py-8 text-center text-slate-500 dark:text-slate-400">
+											className="px-6 py-8 text-center text-slate-500">
 											Loading policies...
 										</td>
 									</tr>
@@ -301,7 +301,7 @@ export default function PoliciesPage() {
 									<tr>
 										<td
 											colSpan={4}
-											className="px-6 py-8 text-center text-slate-500 dark:text-slate-400">
+											className="px-6 py-8 text-center text-slate-500">
 											No custom security policies defined.
 										</td>
 									</tr>
@@ -309,33 +309,33 @@ export default function PoliciesPage() {
 									policies.map((policy) => (
 										<tr
 											key={policy.id}
-											className={`hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors ${!policy.isActive ? "opacity-50" : ""}`}>
+											className={`hover:bg-slate-50 transition-colors ${!policy.isActive ? "opacity-50" : ""}`}>
 											<td className="px-6 py-4 font-medium">
 												<span
 													className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-medium border ${
 														policy.type === "DENY_IP"
-															? "bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border-red-200 dark:border-red-500/20"
+															? "bg-red-50 text-red-600 border-red-200"
 															: policy.type === "ALLOW_IP"
-																? "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/20"
+																? "bg-emerald-50 text-emerald-600 border-emerald-200"
 																: policy.type === "TIME_RESTRICT"
-																	? "bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-500/20"
+																	? "bg-amber-50 text-amber-600 border-amber-200"
 																	: policy.type === "GEO_RESTRICT"
-																		? "bg-purple-50 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-200 dark:border-purple-500/20"
-																		: "bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-500/20"
+																		? "bg-purple-50 text-purple-600 border-purple-200"
+																		: "bg-blue-50 text-blue-600 border-blue-200"
 													}`}>
 													{policy.type}
 												</span>
 											</td>
-											<td className="px-6 py-4 text-slate-900 dark:text-slate-300 font-mono text-xs">
+											<td className="px-6 py-4 text-slate-900 font-mono text-xs">
 												{policy.value}
 											</td>
 											<td className="px-6 py-4">
 												{policy.appRoute ? (
-													<span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/20">
+													<span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-indigo-50 text-indigo-600 border border-indigo-200">
 														{policy.appRoute.name}
 													</span>
 												) : (
-													<span className="inline-flex items-center text-xs text-slate-500 dark:text-slate-400">
+													<span className="inline-flex items-center text-xs text-slate-500">
 														<Globe className="w-3 h-3 mr-1" />
 														{policy.resource || "Global"}
 													</span>

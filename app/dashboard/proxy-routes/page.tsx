@@ -164,14 +164,14 @@ export default function ProxyRoutesPage() {
 		<div className="p-4 md:p-8 max-w-7xl mx-auto">
 			<div className="flex justify-between items-center mb-8">
 				<div className="flex items-center space-x-3">
-					<div className="p-2 bg-indigo-50 dark:bg-indigo-500/10 rounded-lg">
-						<Router className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+					<div className="p-2 bg-indigo-50 rounded-lg">
+						<Router className="w-6 h-6 text-indigo-600" />
 					</div>
 					<div>
-						<h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
+						<h1 className="text-2xl font-bold text-slate-900 tracking-tight">
 							App Gateway Rules
 						</h1>
-						<p className="text-sm text-slate-500 dark:text-slate-400">
+						<p className="text-sm text-slate-500">
 							Manage internal reverse proxy targets and routing
 						</p>
 					</div>
@@ -190,11 +190,11 @@ export default function ProxyRoutesPage() {
 				</div>
 			)}
 
-			<div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-lg dark:shadow-xl">
+			<div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-lg">
 				<div className="overflow-x-auto">
 					<table className="w-full text-left border-collapse">
 						<thead>
-							<tr className="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800 text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">
+							<tr className="bg-slate-50 border-b border-slate-200 text-xs uppercase tracking-wider text-slate-500">
 								<th className="px-6 py-4 font-medium">Application</th>
 								<th className="px-6 py-4 font-medium">
 									Path Prefix (FortiGateX)
@@ -204,12 +204,12 @@ export default function ProxyRoutesPage() {
 								<th className="px-6 py-4 font-medium text-right">Actions</th>
 							</tr>
 						</thead>
-						<tbody className="divide-y divide-slate-200 dark:divide-slate-800/50">
+						<tbody className="divide-y divide-slate-200">
 							{routes.length === 0 ? (
 								<tr>
 									<td
 										colSpan={5}
-										className="px-6 py-12 text-center text-slate-500 dark:text-slate-400">
+										className="px-6 py-12 text-center text-slate-500">
 										No proxy routes configured.
 									</td>
 								</tr>
@@ -217,12 +217,12 @@ export default function ProxyRoutesPage() {
 								routes.map((route) => (
 									<tr
 										key={route.id}
-										className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+										className="hover:bg-slate-50 transition-colors">
 										<td className="px-6 py-4">
 											<div className="flex items-center">
 												<span className="text-2xl mr-3">{route.icon}</span>
 												<div>
-													<div className="text-slate-900 dark:text-white font-medium">
+													<div className="text-slate-900 font-medium">
 														{route.name}
 													</div>
 													<div className="text-xs text-slate-500 line-clamp-1 max-w-xs">
@@ -232,23 +232,23 @@ export default function ProxyRoutesPage() {
 											</div>
 										</td>
 										<td className="px-6 py-4">
-											<span className="inline-flex items-center px-2 py-1 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded text-sm text-slate-700 dark:text-slate-300 font-mono">
+											<span className="inline-flex items-center px-2 py-1 bg-slate-100 border border-slate-300 rounded text-sm text-slate-700 font-mono">
 												{route.pathPrefix}
 											</span>
 										</td>
-										<td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
+										<td className="px-6 py-4 text-sm text-slate-600">
 											<div className="flex items-center space-x-1">
-												<Server className="w-3 h-3 text-slate-400 dark:text-slate-500" />
+												<Server className="w-3 h-3 text-slate-400" />
 												<span className="font-mono">{route.targetUrl}</span>
 											</div>
 										</td>
 										<td className="px-6 py-4 text-center">
 											{route.isActive ? (
-												<span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-500 border border-emerald-200 dark:border-emerald-500/20">
+												<span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-600 border border-emerald-200">
 													<CheckCircle2 className="w-3 h-3 mr-1" /> Active
 												</span>
 											) : (
-												<span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-500/10 text-slate-500 dark:text-slate-400 border border-slate-300 dark:border-slate-500/20">
+												<span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-500 border border-slate-300">
 													<XCircle className="w-3 h-3 mr-1" /> Disabled
 												</span>
 											)}
@@ -256,13 +256,13 @@ export default function ProxyRoutesPage() {
 										<td className="px-6 py-4 text-right">
 											<button
 												onClick={() => handleOpenModal(route)}
-												className="p-2 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 rounded-lg transition-colors mr-2"
+												className="p-2 bg-slate-100 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors mr-2"
 												title="Edit Route">
 												<Edit2 className="w-4 h-4" />
 											</button>
 											<button
 												onClick={() => handleDelete(route.id, route.name)}
-												className="p-2 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg transition-colors"
+												className="p-2 bg-slate-100 text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
 												title="Delete Route">
 												<Trash2 className="w-4 h-4" />
 											</button>
@@ -277,23 +277,23 @@ export default function ProxyRoutesPage() {
 
 			{/* Modal for Create/Edit */}
 			{isModalOpen && (
-				<div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 dark:bg-slate-950/80 backdrop-blur-sm">
-					<div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-2xl w-full max-w-lg overflow-hidden">
-						<div className="px-6 py-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/20">
-							<h2 className="text-xl font-semibold text-slate-900 dark:text-white">
+				<div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
+					<div className="bg-white border border-slate-200 rounded-xl shadow-2xl w-full max-w-lg overflow-hidden">
+						<div className="px-6 py-4 border-b border-slate-200 bg-slate-50">
+							<h2 className="text-xl font-semibold text-slate-900">
 								{editingRoute ? "Edit Gateway Route" : "Add Gateway Route"}
 							</h2>
 						</div>
 
 						<form onSubmit={handleSubmit} className="p-6 space-y-4">
 							{error && (
-								<div className="bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/50 text-red-600 dark:text-red-500 px-4 py-3 rounded-lg text-sm">
+								<div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm">
 									{error}
 								</div>
 							)}
 
 							<div>
-								<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+								<label className="block text-sm font-medium text-slate-700 mb-1">
 									Application Name <span className="text-red-500">*</span>
 								</label>
 								<input
@@ -303,13 +303,13 @@ export default function ProxyRoutesPage() {
 									onChange={(e) =>
 										setFormData({ ...formData, name: e.target.value })
 									}
-									className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+									className="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-2 text-slate-900 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
 									placeholder="e.g. HR Portal"
 								/>
 							</div>
 
 							<div>
-								<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+								<label className="block text-sm font-medium text-slate-700 mb-1">
 									Description
 								</label>
 								<input
@@ -318,14 +318,14 @@ export default function ProxyRoutesPage() {
 									onChange={(e) =>
 										setFormData({ ...formData, description: e.target.value })
 									}
-									className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+									className="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-2 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
 									placeholder="Brief description of the app"
 								/>
 							</div>
 
 							<div className="grid grid-cols-2 gap-4">
 								<div>
-									<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+									<label className="block text-sm font-medium text-slate-700 mb-1">
 										Path Prefix <span className="text-red-500">*</span>
 									</label>
 									<input
@@ -335,7 +335,7 @@ export default function ProxyRoutesPage() {
 										onChange={(e) =>
 											setFormData({ ...formData, pathPrefix: e.target.value })
 										}
-										className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 font-mono text-sm"
+										className="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-2 text-slate-900 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 font-mono text-sm"
 										placeholder="/hr-app"
 									/>
 									<p className="text-xs text-slate-500 mt-1">
@@ -344,7 +344,7 @@ export default function ProxyRoutesPage() {
 								</div>
 
 								<div>
-									<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+									<label className="block text-sm font-medium text-slate-700 mb-1">
 										Icon (Emoji)
 									</label>
 									<input
@@ -353,18 +353,18 @@ export default function ProxyRoutesPage() {
 										onChange={(e) =>
 											setFormData({ ...formData, icon: e.target.value })
 										}
-										className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-center"
+										className="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-2 text-slate-900 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-center"
 										maxLength={5}
 									/>
 								</div>
 							</div>
 
 							<div>
-								<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+								<label className="block text-sm font-medium text-slate-700 mb-1">
 									Internal Target URL <span className="text-red-500">*</span>
 								</label>
 								<div className="flex">
-									<span className="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
+									<span className="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-slate-300 bg-slate-100 text-slate-500">
 										<Globe className="w-4 h-4" />
 									</span>
 									<input
@@ -374,7 +374,7 @@ export default function ProxyRoutesPage() {
 										onChange={(e) =>
 											setFormData({ ...formData, targetUrl: e.target.value })
 										}
-										className="flex-1 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-r-lg px-4 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 font-mono text-sm"
+										className="flex-1 bg-slate-50 border border-slate-300 rounded-r-lg px-4 py-2 text-slate-900 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 font-mono text-sm"
 										placeholder="http://internal-hr.local:8080"
 									/>
 								</div>
@@ -385,17 +385,17 @@ export default function ProxyRoutesPage() {
 
 							{editingRoute ? (
 								<div>
-									<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+									<label className="block text-sm font-medium text-slate-700 mb-1">
 										Shared Proxy Secret
 									</label>
 									<div className="flex items-center space-x-2">
-										<code className="flex-1 bg-slate-100 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 rounded-lg px-4 py-2.5 text-slate-900 dark:text-emerald-400 font-mono text-sm break-all select-all">
+										<code className="flex-1 bg-slate-100 border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900 font-mono text-sm break-all select-all">
 											{formData.proxySecret || "Not generated yet"}
 										</code>
 									</div>
 									<p className="text-xs text-slate-500 mt-2">
 										Injected as{" "}
-										<code className="font-mono text-indigo-600 dark:text-indigo-400">
+										<code className="font-mono text-indigo-600">
 											X-Proxy-Secret
 										</code>{" "}
 										header so your app can block requests bypassing FortiGateX.
@@ -403,16 +403,16 @@ export default function ProxyRoutesPage() {
 								</div>
 							) : (
 								<div>
-									<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+									<label className="block text-sm font-medium text-slate-700 mb-1">
 										Shared Proxy Secret
 									</label>
-									<div className="w-full bg-slate-50 dark:bg-slate-950/50 border border-indigo-200/50 dark:border-indigo-900/30 rounded-lg px-4 py-2.5 text-slate-500 dark:text-slate-400 text-sm italic flex items-center">
+									<div className="w-full bg-slate-50 border border-indigo-200/50 rounded-lg px-4 py-2.5 text-slate-500 text-sm italic flex items-center">
 										<CheckCircle2 className="w-4 h-4 text-emerald-500 mr-2" />A
 										highly secure secret will be auto-generated.
 									</div>
 									<p className="text-xs text-slate-500 mt-2">
 										Injected as{" "}
-										<code className="font-mono text-indigo-600 dark:text-indigo-400">
+										<code className="font-mono text-indigo-600">
 											X-Proxy-Secret
 										</code>{" "}
 										header.
@@ -428,20 +428,20 @@ export default function ProxyRoutesPage() {
 									onChange={(e) =>
 										setFormData({ ...formData, isActive: e.target.checked })
 									}
-									className="w-4 h-4 rounded border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-indigo-600 focus:ring-indigo-500 focus:ring-offset-white dark:focus:ring-offset-slate-900"
+									className="w-4 h-4 rounded border-slate-300 bg-white text-indigo-600 focus:ring-indigo-500 focus:ring-offset-white"
 								/>
 								<label
 									htmlFor="isActive"
-									className="ml-2 text-sm text-slate-700 dark:text-slate-300">
+									className="ml-2 text-sm text-slate-700">
 									Enable Route (Visible in App Portal)
 								</label>
 							</div>
 
-							<div className="flex justify-end space-x-3 pt-6 border-t border-slate-200 dark:border-slate-800 mt-6">
+							<div className="flex justify-end space-x-3 pt-6 border-t border-slate-200 mt-6">
 								<button
 									type="button"
 									onClick={handleCloseModal}
-									className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors border border-slate-300 dark:border-slate-700">
+									className="px-4 py-2 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors border border-slate-300">
 									Cancel
 								</button>
 								<button

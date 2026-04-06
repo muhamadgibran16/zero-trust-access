@@ -33,16 +33,16 @@ export default function ForgotPasswordPage() {
 	};
 
 	return (
-		<div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex items-center justify-center p-4">
-			<div className="w-full max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl p-8 space-y-6">
+		<div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
+			<div className="w-full max-w-md bg-white border border-slate-200 rounded-2xl shadow-2xl p-8 space-y-6">
 				<div className="text-center">
-					<div className="w-16 h-16 bg-violet-50 dark:bg-violet-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-						<KeyRound className="w-8 h-8 text-violet-600 dark:text-violet-500" />
+					<div className="w-16 h-16 bg-violet-50 rounded-full flex items-center justify-center mx-auto mb-4">
+						<KeyRound className="w-8 h-8 text-violet-600" />
 					</div>
-					<h1 className="text-2xl font-bold text-slate-900 dark:text-white">
+					<h1 className="text-2xl font-bold text-slate-900">
 						{sent ? "Check Your Email" : "Forgot Password"}
 					</h1>
-					<p className="text-slate-600 dark:text-slate-400 mt-2 text-sm">
+					<p className="text-slate-600 mt-2 text-sm">
 						{sent
 							? "If an account exists with that email, a reset link has been generated. Check the backend console for the link."
 							: "Enter your email address and we'll send you a reset link."}
@@ -50,7 +50,7 @@ export default function ForgotPasswordPage() {
 				</div>
 
 				{error && (
-					<div className="bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/50 text-red-600 dark:text-red-500 px-4 py-3 rounded-lg text-sm">
+					<div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm">
 						{error}
 					</div>
 				)}
@@ -58,14 +58,14 @@ export default function ForgotPasswordPage() {
 				{!sent ? (
 					<form onSubmit={handleSubmit} className="space-y-4">
 						<div>
-							<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+							<label className="block text-sm font-medium text-slate-700 mb-1">
 								Email Address
 							</label>
 							<input
 								type="email"
 								value={email}
 								onChange={(e) => setEmail(e.target.value)}
-								className="w-full px-4 py-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-500 transition-shadow"
+								className="w-full px-4 py-3 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-violet-500 transition-shadow"
 								required
 								placeholder="you@company.com"
 							/>
@@ -78,7 +78,7 @@ export default function ForgotPasswordPage() {
 						</button>
 					</form>
 				) : (
-					<div className="bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-600 dark:text-emerald-400 px-4 py-4 rounded-lg text-sm text-center">
+					<div className="bg-emerald-50 border border-emerald-200 text-emerald-600 px-4 py-4 rounded-lg text-sm text-center">
 						📧 Reset link has been logged to the{" "}
 						<strong>backend console</strong>. Copy it from there to reset your
 						password.
@@ -88,7 +88,7 @@ export default function ForgotPasswordPage() {
 				<div className="text-center">
 					<Link
 						href="/login"
-						className="text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors inline-flex items-center">
+						className="text-sm text-slate-600 hover:text-slate-900 transition-colors inline-flex items-center">
 						<ArrowLeft className="w-3 h-3 mr-1" />
 						Back to Login
 					</Link>

@@ -133,50 +133,50 @@ export default function AuditLogsPage() {
 					label: "Total Users",
 					value: metrics.totalUsers,
 					icon: Users,
-					color: "text-blue-600 dark:text-blue-400",
-					bg: "bg-blue-50 dark:bg-blue-500/10",
-					border: "border-blue-100 dark:border-blue-500/20",
+					color: "text-blue-600",
+					bg: "bg-blue-50",
+					border: "border-blue-100",
 				},
 				{
 					label: "Registered Devices",
 					value: metrics.totalDevices,
 					icon: HardDrive,
-					color: "text-cyan-600 dark:text-cyan-400",
-					bg: "bg-cyan-50 dark:bg-cyan-500/10",
-					border: "border-cyan-100 dark:border-cyan-500/20",
+					color: "text-cyan-600",
+					bg: "bg-cyan-50",
+					border: "border-cyan-100",
 				},
 				{
 					label: "Compliant Devices",
 					value: metrics.approvedDevices,
 					icon: ShieldCheck,
-					color: "text-emerald-600 dark:text-emerald-400",
-					bg: "bg-emerald-50 dark:bg-emerald-500/10",
-					border: "border-emerald-100 dark:border-emerald-500/20",
+					color: "text-emerald-600",
+					bg: "bg-emerald-50",
+					border: "border-emerald-100",
 				},
 				{
 					label: "Blocked Requests",
 					value: metrics.blockedRequests,
 					icon: AlertTriangle,
-					color: "text-red-600 dark:text-red-400",
-					bg: "bg-red-50 dark:bg-red-500/10",
-					border: "border-red-100 dark:border-red-500/20",
+					color: "text-red-600",
+					bg: "bg-red-50",
+					border: "border-red-100",
 				},
 				{
 					label: "Active Policies",
 					value: metrics.activePolicies,
 					icon: BarChart3,
-					color: "text-violet-600 dark:text-violet-400",
-					bg: "bg-violet-50 dark:bg-violet-500/10",
-					border: "border-violet-100 dark:border-violet-500/20",
+					color: "text-violet-600",
+					bg: "bg-violet-50",
+					border: "border-violet-100",
 				},
 			]
 		: [];
 
 	return (
-		<div className="max-w-6xl mx-auto text-slate-900 dark:text-slate-300">
+		<div className="max-w-6xl mx-auto text-slate-900">
 			<div className="flex items-center justify-between mb-8">
 				<div>
-					<h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center">
+					<h1 className="text-2xl font-bold text-slate-900 flex items-center">
 						<Activity className="w-5 h-5 mr-3 text-blue-500" />
 						Security Audit Logs
 					</h1>
@@ -194,10 +194,10 @@ export default function AuditLogsPage() {
 							key={card.label}
 							className={`${card.bg} border ${card.border} rounded-xl p-4 flex flex-col items-center text-center transition-transform hover:scale-105`}>
 							<card.icon className={`w-6 h-6 ${card.color} mb-2`} />
-							<span className="text-2xl font-bold text-slate-900 dark:text-white">
+							<span className="text-2xl font-bold text-slate-900">
 								{card.value}
 							</span>
-							<span className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
+							<span className="text-[11px] text-slate-500 mt-1">
 								{card.label}
 							</span>
 						</div>
@@ -206,14 +206,14 @@ export default function AuditLogsPage() {
 			)}
 
 			{error && !isDeviceError && !isPolicyError && (
-				<div className="bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-red-600 dark:text-red-500 p-4 rounded-lg mb-6">
+				<div className="bg-red-50 border border-red-200 text-red-600 p-4 rounded-lg mb-6">
 					Error: {error}
 				</div>
 			)}
 
-			<div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-lg dark:shadow-2xl">
+			<div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-lg">
 				<table className="w-full text-left text-sm">
-					<thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800">
+					<thead className="bg-slate-50 text-slate-600 border-b border-slate-200">
 						<tr>
 							<th className="px-6 py-4 font-medium">Timestamp</th>
 							<th className="px-6 py-4 font-medium">Identity (IAP)</th>
@@ -222,30 +222,30 @@ export default function AuditLogsPage() {
 							<th className="px-6 py-4 font-medium">Status / Posture</th>
 						</tr>
 					</thead>
-					<tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+					<tbody className="divide-y divide-slate-200">
 						{logs.map((log) => (
 							<tr
 								key={log.id}
-								className="hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors">
-								<td className="px-6 py-4 whitespace-nowrap text-slate-500 dark:text-slate-400">
+								className="hover:bg-slate-50 transition-colors">
+								<td className="px-6 py-4 whitespace-nowrap text-slate-500">
 									{new Date(log.time).toLocaleString()}
 								</td>
-								<td className="px-6 py-4 font-medium text-slate-900 dark:text-slate-300">
+								<td className="px-6 py-4 font-medium text-slate-900">
 									{log.user}
 								</td>
-								<td className="px-6 py-4 font-mono text-xs text-blue-600 dark:text-blue-400">
+								<td className="px-6 py-4 font-mono text-xs text-blue-600">
 									{log.action} {log.path}
 								</td>
-								<td className="px-6 py-4 font-mono text-xs text-slate-500 dark:text-slate-400">
+								<td className="px-6 py-4 font-mono text-xs text-slate-500">
 									{log.ip}
 								</td>
 								<td className="px-6 py-4">
 									{log.status === 200 ? (
-										<span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-500 border border-emerald-200 dark:border-emerald-500/20">
+										<span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-600 border border-emerald-200">
 											Allowed
 										</span>
 									) : (
-										<span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-500 border border-red-200 dark:border-red-500/20">
+										<span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-50 text-red-600 border border-red-200">
 											Blocked (Policy Engine)
 										</span>
 									)}
